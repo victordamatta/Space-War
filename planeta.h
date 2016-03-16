@@ -6,7 +6,7 @@ struct Planeta {
 typedef struct Planeta * planeta;
 
 /* Constructor para um planeta */
-planeta nova_planeta (double massa, double r);
+planeta novo_planeta (double massa, double r);
 
-/* Calcula a atracao gravitacional da planeta n no ponto (x, y) */
-double atracao_planeta (planeta n, double x, double y);
+/* Calcula a atracao gravitacional do planeta n no ponto (x, y) */
+double atracao_planeta (planeta p, double x, double y);
