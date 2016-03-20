@@ -1,6 +1,6 @@
 struct Planeta {
-    double massa,
-    double r
+    double massa;
+    double r;
 };
 
 typedef struct Planeta * planeta;

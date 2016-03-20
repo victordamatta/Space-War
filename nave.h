@@ -1,10 +1,10 @@
 struct Nave {
-    char* nome,
-    double massa,
-    double x,
-    double y,
-    double velx,
-    double vely
+    char* nome;
+    double massa;
+    double x;
+    double y;
+    double velx;
+    double vely;
 };
 
 typedef struct Nave * nave;

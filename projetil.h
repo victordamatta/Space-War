@@ -1,9 +1,9 @@
 struct Projetil {
-    double massa,
-    double x,
-    double y,
-    double velx,
-    double vely
+    double massa;
+    double x;
+    double y;
+    double velx;
+    double vely;
 };
 
 typedef struct Projetil * projetil;
