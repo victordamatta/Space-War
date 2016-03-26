@@ -19,8 +19,8 @@ forca atracao (double xa, double ya, double ma, double xb, double yb, double mb)
   dist = sqrt(dist);
   
   ft = (g * ma * mb) / pow(dist, 2);
-  res->i = ft * (sqrt(pow(dx, 2)) / dist);
-  res->j = ft * (sqrt(pow(dy, 2)) / dist);
+  res.i = ft * (sqrt(pow(dx, 2)) / dist);
+  res.j = ft * (sqrt(pow(dy, 2)) / dist);
 
   return res;
 }
@@ -29,19 +29,17 @@ forca result (forca a, forca b){
   
   forca re;
 
-  re->i = a->i + b->i;
-  re->j = a->j + b->j;
+  re.i = a.i + b.i;
+  re.j = a.j + b.j;
 
   return re;
 }
 
-double velocidade (forca aplicada, double massa, double t, double vi){
-  double velres, forc;
+void velocidade (forca aplicada, double massa, double t, double *vh, double *vv){
 
-  forc = sqrt(pow(aplicada->i, 2) + pow(aplicada->j, 2));
+  &vh = &vh + (aplicada.i * t) / massa;
+  &vv = &vv + (aplicada.j * t) / massa;
 
-  velres = (forc * t) / massa;
-  velres += vi;
-
-  return velres;
 }
+
+// vh e vv sao respectivamente as componentes horizontais e verticais da velocidade
