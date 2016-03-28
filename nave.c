@@ -1,3 +1,4 @@
+#include "bibfis.h"
 #include "nave.h"
 #include <stdlib.h>
 
@@ -17,8 +18,15 @@ void destroi_nave (nave n) {
     free (n);
 }
 
-void empurra_nave (nave n, forca f, double dt);
+void empurra_nave (nave n, forca f, double dt) {
+    velocidade (f, n->massa, dt, &(n->velx), &(n->vely));
+}
 
-double atracao_nave (nave n, double x, double y);
+forca atracao_nave (nave n, double x, double y, double m) {
+    return atracao (x, y, m, n->x, n->y, n->massa);
+}
 
-void atualiza_nave (nave n, double dt);
+void atualiza_nave (nave n, double dt) {
+    n->x += dt * n->velx;
+    n->y += dt * n->vely;
+}

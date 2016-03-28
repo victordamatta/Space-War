@@ -19,8 +19,8 @@ void destroi_nave (nave n);
  * aplicado com duracao dt */
 void empurra_nave (nave n, forca f, double dt);
 
-/* Calcula a atracao gravitacional da nave n no ponto (x, y) */
-double atracao_nave (nave n, double x, double y);
+/* Calcula a forca gravitacional da nave n no objeto de massa m localizado em (x, y) */
+forca atracao_nave (nave n, double x, double y, double m);
 
 /* Altera as coordenadas da nave de acordo com a velocidade no tempo dt */
 void atualiza_nave (nave n, double dt);
