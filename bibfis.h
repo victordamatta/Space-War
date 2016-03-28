@@ -1,9 +1,15 @@
-typedef struct {
-  double i, j;
-} forca;
+struct Forca {
+  double x, y;
+};
 
+typedef struct Forca forca;
+
+// A funcao atracao retorna a forca gravitacional causada em A por B
 forca atracao (double xa, double ya, double ma, double xb, double yb, double mb);
 
-forca result (forca a, forca b);
+// A funcao resultante retorna a soma das forcas a e b
+forca resultante (forca a, forca b);
 
-void velocidade (forca aplicada, double massa, double t, double *vh, double *vv);
+// A funcao velocidade altera a velocidade (vx, vy) de um corpo de massa massa
+// sofrendo acao da forca aplicada por t segundos
+void velocidade (forca aplicada, double massa, double t, double *vx, double *vy);
