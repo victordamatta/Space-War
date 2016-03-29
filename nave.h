@@ -1,3 +1,5 @@
+#ifndef NAVE_H
+#define NAVE_H
 struct Nave {
     char* nome;
     double massa;
@@ -24,3 +26,4 @@ forca atracao_nave (nave n, double x, double y, double m);
 
 /* Altera as coordenadas da nave de acordo com a velocidade no tempo dt */
 void atualiza_nave (nave n, double dt);
+#endif

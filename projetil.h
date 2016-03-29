@@ -1,3 +1,5 @@
+#ifndef PROJETIL_H
+#define PROJETIL_H
 struct Projetil {
     double massa;
     double x;
@@ -20,3 +22,4 @@ void empurra_projetil (projetil p, forca f, double dt);
 
 /* Altera as coordenadas do projetil de acordo com a velocidade no tempo dt */
 void atualiza_projetil (projetil p, double dt);
+#endif

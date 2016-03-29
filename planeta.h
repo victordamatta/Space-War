@@ -1,3 +1,5 @@
+#ifndef PLANETA_H
+#define PLANETA_H
 struct Planeta {
     double massa;
     double r;
@@ -13,3 +15,4 @@ void destroi_planeta (planeta p);
 
 /* Calcula a atracao gravitacional do planeta n no objeto de massa m localizado em (x, y) */
 forca atracao_planeta (planeta p, double x, double y, double m);
+#endif
