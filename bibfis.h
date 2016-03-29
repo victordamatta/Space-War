@@ -1,3 +1,6 @@
+#ifndef BIBFIS_H
+#define BIBFIS_H
+
 struct Forca {
   double x, y;
 };
@@ -13,3 +16,4 @@ forca resultante (forca a, forca b);
 // A funcao velocidade altera a velocidade (vx, vy) de um corpo de massa massa
 // sofrendo acao da forca aplicada por t segundos
 void velocidade (forca aplicada, double massa, double t, double *vx, double *vy);
+#endif

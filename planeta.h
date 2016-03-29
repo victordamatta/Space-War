@@ -11,5 +11,5 @@ planeta novo_planeta (double massa, double r);
 /* Destructor para um planeta */
 void destroi_planeta (planeta p);
 
-/* Calcula a atracao gravitacional do planeta n no ponto (x, y) */
-double atracao_planeta (planeta p, double x, double y);
+/* Calcula a atracao gravitacional do planeta n no objeto de massa m localizado em (x, y) */
+forca atracao_planeta (planeta p, double x, double y, double m);
