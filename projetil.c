@@ -9,6 +9,7 @@ projetil novo_projetil (double massa, double x, double y, double velx, double ve
     p->y = y;
     p->velx = velx;
     p->vely = vely;
+    return p; // Nao tinha return aqui
 }
 
 void destroi_projetil (projetil p) {

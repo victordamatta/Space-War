@@ -1,10 +1,13 @@
 #include "bibfis.h"
 #include "nave.h"
 #include <stdlib.h>
+#include <string.h> 
+#include <stdio.h>
 
 nave nova_nave (char* nome, double massa, double x, double y, double velx, double vely) {
     nave n = malloc (sizeof (struct Nave));
-    n->nome = nome;
+    n->nome = malloc (sizeof (strlen(nome)) + sizeof (char)); //precisei dar malloc
+    //n->nome = nome;
     n->massa = massa;
     n->x = x;
     n->y = y;

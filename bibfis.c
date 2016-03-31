@@ -27,8 +27,10 @@ forca atracao (double xa, double ya, double ma, double xb, double yb, double mb)
 
     ft = (g * ma * mb) / pow(dist, 2);
     ft = ft / pow(10, 11);
+	
     res.x = ft * (dx / dist);
     res.y = ft * (dy / dist);
+
 
     return res;
 }
@@ -48,7 +50,7 @@ void velocidade (forca aplicada, double massa, double t, double *vx, double *vy)
     *vx += (aplicada.x * t) / massa;
     *vy += (aplicada.y * t) / massa;
 }
-
+/*
 int main (){
 
     forca ap, teste, fa, fb;
@@ -82,3 +84,4 @@ int main (){
 
     return 0;
 }
+*/
