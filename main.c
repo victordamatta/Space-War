@@ -6,60 +6,66 @@
 #define TAM 255
 
 int main() {
+	
+	char url[]="exemplo.txt"; // leitura do arquivo
 	double tp, mp, t_simul; //tamanho_planeta massa_planeta tempo_simulação
 	double m1, posx1, posy1, velx1, vely1; // massa1 pos_x1 pos_y1 vel_x1 vel_y1
-	char nome1[TAM], nome2[TAM];
+	char nome1[TAM], nome2[TAM]; //Nome dos planetas
 	double m2, posx2, posy2, velx2, vely2; // massa2 pos_x2 pos_y2 vel_x2 vel_y2
 	double num_proj, temp_vida; // num_proj tempo_vida
-	double m_proj1, posx_proj1, posy_proj1, velx_proj1, vely_proj1; // massa_proj1 posx_proj1 posy_proj1 velx_proj1 vely_proj1
-	planeta plan;
-	nave n1,n2;
-	projetil proj1;
-	int i = 10;
+	double m_proj, posx_proj, posy_proj, velx_proj, vely_proj;	// Pros projeteis (tem que ser generico)
+	int tam_nome1 = 0,tam_nome2 = 0; //Tamanho dos nomes
+	int i, j, k; // i e j contadores
+	double aux; //Auxiliar em laços
+	char ch; // Auxiliar com caracteres
+	planeta plan; //planeta
+	nave n1,n2; //naves
+	projetil lista_projeteis[TAM]; // lista de projeteis
+
+	//Leitura do arquivo .txt
+	FILE *arq;
 	
-	printf("\n Primeira linha: Global \n");
-	scanf("%lf %lf %lf",&tp, &mp, &t_simul);
-
-	printf("\n Segunda linha: Nave 1 \n");
-	scanf("%s %lf %lf %lf %lf %lf",&nome1[0], &m1, &posx1, &posy1, &velx1, &vely1);
-
-	printf("\n Terceira linha: Nave 2 \n");
-	scanf("%s %lf %lf %lf %lf %lf",&nome2[0], &m2, &posx2, &posy2, &velx2, &vely2);
-
-	printf("\n Quarta linha: Projéteis \n");
-	scanf("%lf %lf",&num_proj, &temp_vida);
+	arq = fopen(url, "r");
+	if(arq == NULL) {
+			printf("Erro, nao foi possivel abrir o arquivo\n");
+			return 0;
+	}
 	
-	printf("\n Quinta linha: Projetil \n");
-	scanf("%lf %lf %lf %lf %lf", &m_proj1, &posx_proj1, &posy_proj1, &velx_proj1, &vely_proj1);
+	fscanf(arq,"%lf %lf %lf\n", &tp, &mp, &t_simul);
 
-/* Usei pra testes
-	tp = 10;
-	mp = 20000000;
-	t_simul = 30;
+	// Aqui vou verificando o que é inserido no nome e contabilizando, pra ter o tamanho do nome.
+	while((ch =fgetc(arq))!= ' '){
+		tam_nome1++;
+	}		
+		
+	fseek(arq,tam_nome1*(-1) - 1,SEEK_CUR); // Mas como nao armazenei o nome, faço o cursor retornar pra 1 posição antes do nome
+
+	fscanf(arq,"%s %lf %lf %lf %lf %lf\n", &nome1[0], &m1, &posx1, &posy1, &velx1, &vely1);
+
+	// O mesmo pro nome2
+	while((ch =fgetc(arq))!= ' '){
+		tam_nome2++;
+	}		
 	
-	nome1 = "andrei";
-	m1 = 7000000;
-	posx1 = 1;
-	posy1 = 2;
-	velx1 = 0;
-	vely1 = 0;
+	fseek(arq,tam_nome2*(-1) - 1,SEEK_CUR);
+	fscanf(arq,"%s %lf %lf %lf %lf %lf\n", &nome2[0], &m2, &posx2, &posy2, &velx2, &vely2);
+		
+	// Lendo informaçoes dos projéteis. Irei ter que já criá-los.	
+	fscanf(arq,"%lf %lf\n", &num_proj, &temp_vida);
 
-	nome2 = "b";
-	m2 = 8000000;
-	posx2 = 5;
-	posy2 = 5;
-	velx2 = 0;
-	vely2 = 0;
+	//Criação de todos os num_proj projeteis.
+	i=0;		
+	aux = num_proj;
+	while (aux > 0) {
+		fscanf(arq,"%lf %lf %lf %lf %lf\n", &m_proj, &posx_proj, &posy_proj, &velx_proj, &vely_proj);		
+		lista_projeteis[i] = novo_projetil(m_proj,posx_proj,posy_proj,velx_proj,vely_proj);
+		i++;
+		aux--;
+	}
 
-	num_proj = 1;
-	temp_vida = 20;
-	
-	m_proj1 = 500;
-	posx_proj1 = 1;
-	posy_proj1 = 3;
-	velx_proj1 = 0;
-	vely_proj1 = 0;
-*/
+	fclose(arq);
+
+	//---------------------------------------Termino da leitura do aquivo ---------------------------------------
 
 	//Criação planeta
 	plan = novo_planeta(mp,tp);
@@ -68,14 +74,31 @@ int main() {
 	n1 = nova_nave(nome1, m1,posx1,posy1,velx1,vely1);
 	n2 = nova_nave(nome2, m2,posx2,posy2,velx2,vely2);
 
-	//Criação dos projéteis
-	proj1 = novo_projetil(m_proj1,posx_proj1,posy_proj1,velx_proj1,vely_proj1);
+	forca fan,fan1_plan,fan2_plan,fan1_res,fan2_res,fap,fap_res; //fan(força de atração naves); _res (resultante); 1(nave1)
+	
+	// Imprimir estado inicial
+	printf("\n Estado incial");
+	printf("\n Nave 1:	");
+	printf("(%s)",n1->nome);
+	printf(" Massa: %2.4f Pos_x1: %2.4f Pos_y1: %2.4f Vel_x1: %2.4f Vel_y1: %2.4f \n", n1->massa,n1->x,n1->y,n1->velx,n1->vely);
+
+	printf("\n Nave 2:	");
+	printf("(%s)",n2->nome);
+	printf(" Massa: %2.4f Pos_x2: %2.4f Pos_y2: %2.4f Vel_x2: %2.4f Vel_y2: %2.4f \n\n", n2->massa,n2->x,n2->y,n2->velx,n2->vely);
+
+	aux = num_proj;
+	j=0;
+	while (aux > 0){
+		printf(" Projetil %d: ",j);
+		printf(" Massa: %2.4f Pos_x2: %2.4f Pos_y2: %2.4f Vel_x2: %2.4f Vel_y2: %2.4f \n", lista_projeteis[j]->massa, lista_projeteis[j]->x, 	lista_projeteis[j]->y, lista_projeteis[j]->velx, lista_projeteis[j]->vely);
+		aux--;
+		j++;
+	}
 
 	//Faremos 10 iterações
+	i=10;
+	k=0;
 	while(i>0) {
-
-		
-		forca fan,fan_res,fan1_plan,fan2_plan,fan1_res,fan2_res; //fan(força de atração naves); _res (resultante); 1(nave1)
 
 		//Atração entre as naves
 		fan = atracao_nave(n1,n2->x,n2->y,n2->massa); 
@@ -85,8 +108,8 @@ int main() {
 		fan2_plan = atracao_planeta(plan,n2->x,n2->y,n2->massa);
 
 		//Resultantes
-		fan1_res = resultante(fan_res,fan);
-		fan2_res = resultante(fan_res,fan);
+		fan1_res = resultante(fan1_plan,fan);
+		fan2_res = resultante(fan2_plan,fan);
 
 		//Mover as naves
 		empurra_nave(n1,fan1_res,t_simul);
@@ -95,16 +118,41 @@ int main() {
 		//Atualizar naves
 		atualiza_nave(n1,t_simul);
 		atualiza_nave(n2,t_simul);
-	
-		printf("\n Iteracao numero: %d ",i);
-		printf("\n Nave 1: %s ",n1->nome);
-		printf("\n Massa: %f \n Posx1: %f \n Posy1: %f \n velX1: %f \n velY1: %f \n", n1->massa,n1->x,n1->y,n1->velx,n1->vely);
+		
+		printf("\n Iteracao numero: %d \n",k);
+		printf("\n Nave 1:	");
+		printf("(%s)",n1->nome);
+		printf(" Massa: %2.4f Pos_x1: %2.4f Pos_y1: %2.4f Vel_x1: %2.4f Vel_y1: %2.4f \n", n1->massa,n1->x,n1->y,n1->velx,n1->vely);
 
-		printf("\n Nave 2: %s ",n2->nome);
-		printf("\n Massa: %f \n Posx2: %f \n Posy2: %f \n velX2: %f \n velY2: %f \n", n2->massa,n2->x,n2->y,n2->velx,n2->vely);
+		printf("\n Nave 2:	");
+		printf("(%s)",n2->nome);
+		printf(" Massa: %2.4f Pos_x2: %2.4f Pos_y2: %2.4f Vel_x2: %2.4f Vel_y2: %2.4f \n\n", n2->massa,n2->x,n2->y,n2->velx,n2->vely);
+
+		//Atracao dos projeteis
+		aux = num_proj;
+		j=0;
+		while (aux > 0){
+			// Atracao entre projetil i e planeta
+			fap = atracao_planeta(plan,lista_projeteis[j]->x,lista_projeteis[j]->y,lista_projeteis[j]->massa);			
+			
+			//Resultante é a própria atracao_planeta pois só ela está agindo.
+		
+			//empurra_projetil
+			empurra_projetil(lista_projeteis[j],fap,t_simul);
+			//atualiza projetil
+			atualiza_projetil(lista_projeteis[j],t_simul);
+
+			printf(" Projetil %d: ",j);
+			printf(" Massa: %2.4f Pos_x2: %2.4f Pos_y2: %2.4f Vel_x2: %2.4f Vel_y2: %2.4f \n", lista_projeteis[j]->massa, lista_projeteis[j]->x, 	lista_projeteis[j]->y, lista_projeteis[j]->velx, lista_projeteis[j]->vely);
+			aux--;
+			j++;
+		}
 	
 		i--;
+		k++;	
+	
 	}
+
 
 	return 0;
 
