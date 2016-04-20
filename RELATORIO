@@ -1,0 +1,13 @@
+Relatório
+
+O projeto é estruturado de acordo com os objetos presentes na simulação. Para 
+cada tipo de objeto existe um arquivo com a especificação do objeto, constructor
+e destructor e um conjunto de funções que utilizam o objeto.
+
+A biblioteca de física - bibfis - foi feita tentando ser o mais abstrata o 
+possível, e wrapper functions foram criadas pra cada objeto que permitem usar 
+as funções da bibfis de maneira mais intuitiva.
+
+O programa então consiste de um loop que primeiro calcula as interações entre 
+os objetos, aplicar o resultado dessas interações e imprimir a situação atual
+do sistema.

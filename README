@@ -3,3 +3,23 @@ Integrantes:
     Anderson Andrei 8944025
     Daniel Alves Rodrigues 9298083
     Victor Aliende da Matta 9298145
+
+Manual de Usuário:
+    O programa toma como parâmetro obrigatório o tempo entre cada iteração do cálculo de posições e lê da entrada padrão um arquivo com as seguintes especificações:
+    A primeira linha tem os parâmetros globais, separados por espaço:
+    1.  Tamanho do planeta (raio).
+    2.  Massa do planeta.
+    3.  Tempo total de simulação.
+    A segunda linha contém a descrição da primeira nave, com os seguintes campos separados por espaco:
+    1.  Nome da nave (máximo de 255 carácteres).
+    2.  Massa da nave.
+    3.  Coordenada da posição x da nave.
+    4.  Coordenada da posição y da nave.
+    5.  Componente x da velocidade da nave.
+    6.  Componente y da velocidade da nave.
+    A terceira linha descreve a segunda nave, da mesma forma.
+    A quarta linha indicará o número de projéteis e a duração (tempo de vida) deles.
+    As  linhas  seguintes  conterão  a  descrição  de  cada  projétil,  da  mesma forma que nas naves, mas sem o campo nome.
+
+    O programa então escreve na saída padrão a posição e velocida atual das naves e projéteis,
+a cada passo de tempo determinado pelo parâmetro.
