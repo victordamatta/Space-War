@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "xwc.h"
 #include "bibfis.h"
 #include "nave.h"
 #include "planeta.h"
@@ -17,6 +18,7 @@ int main(int argc, char* argv[]) {
     planeta plan; //planeta
     nave n1, n2; //naves
     projetil projeteis[TAM]; //lista de projeteis
+    WINDOW* janela = InitGraph (300, 300, "principal");
 
     sscanf(argv[1], "%lf", &passo);
     scanf("%lf %lf %lf\n", &tp, &mp, &t_simul);
