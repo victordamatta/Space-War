@@ -11,7 +11,7 @@ projetil novo_projetil (double massa, double x, double y, double velx, double ve
     p->vely = vely;
     p->tempo = tempo;
     p->morto = 0;
-    return p; // Nao tinha return aqui
+    return p;
 }
 
 void destroi_projetil (projetil p) {
