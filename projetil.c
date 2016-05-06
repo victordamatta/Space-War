@@ -14,7 +14,7 @@ projetil novo_projetil (double massa, double x, double y, double velx, double ve
  	MASK msks[MAX_MSKS];
 	PIC pic[MAX_MSKS];
   
-	MAPA = ReadPic(w1, "todo.xpm", NULL);	
+	MAPA = ReadPic(w1, "imagens/oficial-plan.xpm", NULL);	
 
 	p->msks[0] = NewMask(MAPA, 32, 32);
 	p->msks[1] = NewMask(MAPA,32,32);
