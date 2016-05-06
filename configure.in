@@ -1,0 +1,44 @@
+# -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ([2.69])
+
+AC_INIT(teste.c)
+
+# Checks for programs.
+AC_PROG_CC
+
+# Checks for libraries.
+# We need X
+AC_PATH_X
+
+# Replace `main' with a function in -lX11:
+AC_CHECK_LIB(X11, XFlush,,
+echo Não será possível usar X
+)
+# Replace `main' with a function in -lXpm:
+AC_CHECK_LIB(Xpm, XpmReadFileToPixmap,,
+echo Não será possível usar as funções da biblioteca Xpm
+XPMTEST="NOXPM=1"
+CFLAGS="-D NOXPM $CFLAGS"
+)
+
+AC_SUBST(XPMTEST)
+
+# Replace `main' with a function in -lm:
+AC_CHECK_LIB(m, tan)
+
+# Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS(unistd.h)
+
+# Checks for typedefs, structures, and compiler characteristics.
+
+# Checks for library functions.
+
+AC_FUNC_MALLOC
+
+
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT
+

@@ -9,7 +9,3 @@ nave.o: nave.c
 projetil.o: projetil.c
 planeta.o: planeta.c
 xwc.o: xwc.c
-
-clean:
-	rm *.o
-	rm main
