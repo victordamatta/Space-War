@@ -6,12 +6,11 @@ extern WINDOW* w1;
 
 projetil novo_projetil (double massa, double x, double y, double velx, double vely, double tempo, int inc) {
     projetil p = malloc (sizeof (struct Projetil));
-	PIC MAPA;
-	MAPA = ReadPic(w1, "imagens/oficial-plan.xpm", NULL);
+	PIC MAPA = ReadPic(w1, "imagens/oficial-plan.xpm", NULL);
 	p->msks[0] = NewMask(MAPA, 32, 32);
-	p->msks[1] = NewMask(MAPA,32,32);
-	p->pic[0] = ReadPic(w1,"imagens/projeteis/xpm/p-0.xpm", p->msks[0]);
-	p->pic[1] = ReadPic(w1,"imagens/projeteis/xpm/p-180.xpm", p->msks[1]);
+	p->msks[1] = NewMask(MAPA, 32, 32);
+	p->pic[0] = ReadPic(w1, "imagens/projeteis/xpm/p-0.xpm", p->msks[0]);
+	p->pic[1] = ReadPic(w1, "imagens/projeteis/xpm/p-180.xpm", p->msks[1]);
 
     p->massa = massa;
     p->x = x;

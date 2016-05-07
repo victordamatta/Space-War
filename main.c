@@ -44,7 +44,8 @@ int main(int argc, char* argv[]) {
     }
 
     //NOVO
-	w1 = InitGraph(800,600, "Jogo");
+	w1 = InitGraph(800, 600, "Jogo");
+    inc = 0;
 	MAPA = ReadPic(w1, "imagens/oficial-plan.xpm", NULL);
 	PutPic(w1, MAPA, 0, 0, 800, 600, 0, 0);
 
