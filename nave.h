@@ -7,6 +7,7 @@ struct Nave {
     double y;
     double velx;
     double vely;
+    PIC ImagemNave;
 };
 
 typedef struct Nave * nave;
