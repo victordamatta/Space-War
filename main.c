@@ -6,6 +6,8 @@
 #include "projetil.h"
 #define TAM 256
 
+WINDOW* w1;
+
 void imprime (nave n1, nave n2, projetil* pjs, int psz) {
     int i;
 
@@ -15,12 +17,12 @@ void imprime (nave n1, nave n2, projetil* pjs, int psz) {
     printf("Nave 2: (%s)\n",n2->nome);
     printf("Massa: %2.4f Pos_x2: %2.4f Pos_y2: %2.4f Vel_x2: %2.4f Vel_y2: %2.4f\n", n2->massa,n2->x,n2->y,n2->velx,n2->vely);
 
-    printf ("\n");
-
     for (i = 0; i < psz; i++) {
         printf("Projetil %d: ", i);
         printf("Massa: %2.4f Pos_xp: %2.4f Pos_yp: %2.4f Vel_xp: %2.4f Vel_yp: %2.4f\n", pjs[i]->massa, pjs[i]->x, pjs[i]->y, pjs[i]->velx, pjs[i]->vely);
     }
+
+    printf ("\n");
 }
 
 int main(int argc, char* argv[]) {
@@ -30,16 +32,21 @@ int main(int argc, char* argv[]) {
     double m2, posx2, posy2, velx2, vely2; //massa2 pos_x2 pos_y2 vel_x2 vel_y2
     double temp_vida; //tempo_vida
     double m_proj, posx_proj, posy_proj, velx_proj, vely_proj;	//Pros projeteis
-    int i, j, k, num_proj; //i, j, k contadores numero_projeteis
+    int i, j, k, num_proj, inc; //i, j, k contadores numero_projeteis
     planeta plan; //planeta
     nave n1, n2; //naves
     projetil projeteis[TAM]; //lista de projeteis
-    WINDOW* janela = InitGraph (300, 300, "principal");
+	PIC MAPA, todo;	//NOVO
 
     if (argc < 2) {
         fprintf (stderr, "FALTA PARÂMETRO: dt\n");
         return 1;
     }
+
+    //NOVO
+	w1 = InitGraph(800,600, "Jogo");
+	MAPA = ReadPic(w1, "imagens/oficial-plan.xpm", NULL);
+	PutPic(w1, MAPA, 0, 0, 800, 600, 0, 0);
 
     sscanf(argv[1], "%lf", &passo);
     scanf("%lf %lf %lf\n", &tp, &mp, &t_simul);
@@ -49,8 +56,8 @@ int main(int argc, char* argv[]) {
 
     //Criação de todos os num_proj projeteis.
     for(i = 0; i < num_proj; i++) {
-        scanf("%lf %lf %lf %lf %lf\n", &m_proj, &posx_proj, &posy_proj, &velx_proj, &vely_proj);
-        projeteis[i] = novo_projetil(m_proj, posx_proj, posy_proj, velx_proj, vely_proj, temp_vida);
+        scanf("%lf %lf %lf %lf %lf %d\n", &m_proj, &posx_proj, &posy_proj, &velx_proj, &vely_proj, &inc);
+        projeteis[i] = novo_projetil(m_proj, posx_proj, posy_proj, velx_proj, vely_proj, temp_vida, inc);
     }
 
     //--------------------------Termino da leitura do aquivo -----------------------------
@@ -116,6 +123,18 @@ int main(int argc, char* argv[]) {
             atualiza_projetil(projeteis[i], passo);
         }
 
+        //NOVO
+		PutPic(w1, MAPA, 0, 0, 800, 600, 0, 0);
+        todo = NewPic(w1, 800, 600);
+		for (i = 0; i < num_proj; i++) {
+			imprime_projetil(projeteis[i], todo);
+		}
+		//usleep(100000);
+		WClear(w1);
+		FreePic(todo);
+		UnSetMask(w1);
+		PutPic(w1, MAPA, 0, 0, 800, 600, 0, 0);
+
         printf("Iteracao numero: %d\n",k);
         imprime(n1, n2, projeteis, num_proj);
 
@@ -126,7 +145,7 @@ int main(int argc, char* argv[]) {
     destroi_nave(n1);
     destroi_nave(n2);
     destroi_planeta(plan);
-    for(i = 0; i < num_proj; i++) destroi_projetil(projeteis[i]);
+    for (i = 0; i < num_proj; i++) destroi_projetil(projeteis[i]);
 
     return 0;
 }
