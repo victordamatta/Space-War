@@ -2,9 +2,8 @@
 #include "xwc.h"
 #include <stdlib.h>
 #include "projetil.h"
-extern WINDOW* w1;
 
-projetil novo_projetil (double massa, double x, double y, double velx, double vely, double tempo, int inc) {
+projetil novo_projetil (double massa, double x, double y, double velx, double vely, double tempo, int inc, WINDOW* w1) {
     projetil p = malloc (sizeof (struct Projetil));
 	PIC MAPA = ReadPic(w1, "imagens/oficial-plan.xpm", NULL);
 	p->msks[0] = NewMask(MAPA, 32, 32);
@@ -43,7 +42,7 @@ void atualiza_projetil (projetil p, double dt) {
     if (p->tempo <= 0) p->morto = 1;
 }
 
-void imprime_projetil (projetil p, PIC picture) {
+void imprime_projetil (projetil p, WINDOW* w1, PIC picture) {
 	PutPic (picture, p->pic[p->inc], 0, 0, 800, 600, p->x, p->y);
 	SetMask (w1, p->msks[p->inc]);
 	PutPic (w1, picture, p->x, p->y, 800, 600, p->x, p->y);

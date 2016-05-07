@@ -19,7 +19,7 @@ struct Projetil {
 typedef struct Projetil * projetil;
 
 /* Constructor para um projetil */
-projetil novo_projetil (double massa, double x, double y, double velx, double vely, double tempo, int inc);
+projetil novo_projetil (double massa, double x, double y, double velx, double vely, double tempo, int inc, WINDOW* w1);
 
 /* Destructor para um projetil */
 void destroi_projetil (projetil p);
@@ -35,5 +35,5 @@ forca atracao_projetil (projetil p, double x, double y, double m);
 void atualiza_projetil (projetil p, double dt);
 
 /* Imprime projetil p na janela principal */
-void imprime_projetil (projetil p, PIC picture);
+void imprime_projetil (projetil p, WINDOW* w1, PIC picture);
 #endif

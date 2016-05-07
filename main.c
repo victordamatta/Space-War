@@ -6,8 +6,6 @@
 #include "projetil.h"
 #define TAM 256
 
-WINDOW* w1;
-
 void imprime (nave n1, nave n2, projetil* pjs, int psz) {
     int i;
 
@@ -37,6 +35,7 @@ int main(int argc, char* argv[]) {
     nave n1, n2; //naves
     projetil projeteis[TAM]; //lista de projeteis
 	PIC MAPA, todo;	//NOVO
+    WINDOW* w1;
 
     if (argc < 2) {
         fprintf (stderr, "FALTA PARÂMETRO: dt\n");
@@ -58,7 +57,7 @@ int main(int argc, char* argv[]) {
     //Criação de todos os num_proj projeteis.
     for(i = 0; i < num_proj; i++) {
         scanf("%lf %lf %lf %lf %lf %d\n", &m_proj, &posx_proj, &posy_proj, &velx_proj, &vely_proj, &inc);
-        projeteis[i] = novo_projetil(m_proj, posx_proj, posy_proj, velx_proj, vely_proj, temp_vida, inc);
+        projeteis[i] = novo_projetil(m_proj, posx_proj, posy_proj, velx_proj, vely_proj, temp_vida, inc, w1);
     }
 
     //--------------------------Termino da leitura do aquivo -----------------------------
@@ -128,7 +127,7 @@ int main(int argc, char* argv[]) {
 		PutPic(w1, MAPA, 0, 0, 800, 600, 0, 0);
         todo = NewPic(w1, 800, 600);
 		for (i = 0; i < num_proj; i++) {
-			imprime_projetil(projeteis[i], todo);
+			imprime_projetil(projeteis[i], w1, todo);
 		}
 		//usleep(100000);
 		WClear(w1);
