@@ -21,5 +21,6 @@ Manual de Usuário:
     A quarta linha indicará o número de projéteis e a duração (tempo de vida) deles.
     As  linhas  seguintes  conterão  a  descrição  de  cada  projétil,  da  mesma forma que nas naves, mas sem o campo nome.
 
-    O programa então escreve na saída padrão a posição e velocida atual das naves e projéteis,
-a cada passo de tempo determinado pelo parâmetro.
+    O programa então escreve na saída padrão a posição e velocidade atual das naves e projéteis,
+a cada passo de tempo determinado pelo parâmetro. Além disso, ele abre uma janela, onde os
+objetos são desenhados se movendo.

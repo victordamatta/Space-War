@@ -1,13 +1,40 @@
 Relatório
 
-O projeto é estruturado de acordo com os objetos presentes na simulação. Para 
+O projeto é estruturado de acordo com os objetos presentes na simulação. Para
 cada tipo de objeto existe um arquivo com a especificação do objeto, constructor
 e destructor e um conjunto de funções que utilizam o objeto.
 
-A biblioteca de física - bibfis - foi feita tentando ser o mais abstrata o 
-possível, e wrapper functions foram criadas pra cada objeto que permitem usar 
+A biblioteca de física - bibfis - foi feita tentando ser o mais abstrata o
+possível, e wrapper functions foram criadas pra cada objeto que permitem usar
 as funções da bibfis de maneira mais intuitiva.
 
-O programa então consiste de um loop que primeiro calcula as interações entre 
+O programa então consiste de um loop que primeiro calcula as interações entre
 os objetos, aplicar o resultado dessas interações e imprimir a situação atual
 do sistema.
+
+Para a ilustração da movimentação dos objetos, nessa fase do projeto, utilizamos
+a biblioteca XWC.
+
+Dentro dela exploramos o uso dos seguintes objetos: Window,Picture (PIC) e
+Mascaras (MASK), sendo respectivamente, a janela principal onde tudo acontece; a
+representação de cada imagem utilizada e as máscaras de cada uma delas (utilizadas
+nas sobreposições das PICs).
+
+A nossa Window é o cenário do nosso jogo composta por uam representação do Espaço
+e um Planeta principal (talvez algo mais possa ser acrescentado no decorrer das
+próximas fases) e nossas Pictures são os projéteis e as naves (estes contendo
+várias versões, já que possuírão inclinação necessitando assim da ilustração dessas
+várias posições possíveis).
+
+Em geral o que é feito é que ao ser definida a Windows do projeto, ela sempre é
+utilizada pelas PICS e MASKS que nelas serão impressas. Como já foi dito, para a
+sobreposição, são feitas MASKS que são como se fossem o "negativo" das PICS quem
+permitem que possamos imprí-las de forma a não sobrepor todo o retangulo que
+compoem a imagem, mas sim apenas o contorno do objeto dessas imagens (no caso os
+projéteis e as naves).
+
+Para exibir as imagens, depois de criadas as máscaras, temos então que ativá-las
+e aí imprimir na tela as PICS desejadas.
+
+Ao fim do uso daquela PIC/MASK a mascara deve ser desativada para que possa ser
+feito o mesmo processo com os outros objetos que também serão impressos.
