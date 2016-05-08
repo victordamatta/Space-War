@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include "xwc.h"
 #include "bibfis.h"
 #include "nave.h"
@@ -129,7 +130,7 @@ int main(int argc, char* argv[]) {
 		for (i = 0; i < num_proj; i++) {
 			imprime_projetil(projeteis[i], w1, todo);
 		}
-		//usleep(100000);
+		usleep(100000);
 		WClear(w1);
 		FreePic(todo);
 		UnSetMask(w1);
