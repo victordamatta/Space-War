@@ -5,8 +5,14 @@
 #include <stdio.h>
 #include "nave.h"
 
-nave nova_nave (char* nome, double massa, double x, double y, double velx, double vely) {
+nave nova_nave (char* nome, double massa, double x, double y, double velx, double vely, WINDOW* w1) {
     nave n = malloc (sizeof (struct Nave));
+    PIC MAPA;
+    MAPA = ReadPic(w1, "imagens/oficial-plan.xpm", NULL);
+    n->msks[0] = NewMask (MAPA, 32, 32);
+    n->msks[1] = NewMask (MAPA, 32, 32);
+    n->pic[0] = ReadPic (w1, "imagens/TARDIS/tardis0.xpm", n->msks[0]);
+    n->pic[1] = ReadPic (w1, "imagens/TARDIS/tardis180.xpm", n->msks[1]);
 	n->nome = nome;
     n->massa = massa;
     n->x = x;

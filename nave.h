@@ -16,7 +16,7 @@ struct Nave {
 typedef struct Nave * nave;
 
 /* Constructor para uma nave */
-nave nova_nave (char* nome, double massa, double x, double y, double velx, double vely);
+nave nova_nave (char* nome, double massa, double x, double y, double velx, double vely, WINDOW* w1);
 
 /* Destructor para uma nave */
 void destroi_nave (nave n);
