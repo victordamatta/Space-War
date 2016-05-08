@@ -125,10 +125,11 @@ int main(int argc, char* argv[]) {
 
 		PutPic(w1, MAPA, 0, 0, 800, 600, 0, 0);
         todo = NewPic(w1, 800, 600);
-        /* imprime_nave(n1, w1, todo); */
-        /* imprime_nave(n2, w1, todo); */
+        imprime_nave(n1, w1, todo);
+        imprime_nave(n2, w1, todo);
 		for (i = 0; i < num_proj; i++) {
-			imprime_projetil(projeteis[i], w1, todo);
+            if (!projeteis[i]->morto)
+                imprime_projetil(projeteis[i], w1, todo);
 		}
 		usleep(100000);
 		WClear(w1);

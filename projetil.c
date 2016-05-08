@@ -38,6 +38,8 @@ forca atracao_projetil (projetil p, double x, double y, double m) {
 void atualiza_projetil (projetil p, double dt) {
     p->x += dt * p->velx;
     p->y += dt * p->vely;
+    if (p->x > 800) p->x -= 850;
+    if (p->y > 600) p->y -= 650;
     p->tempo -= dt;
     if (p->tempo <= 0) p->morto = 1;
 }

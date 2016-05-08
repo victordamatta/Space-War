@@ -15,6 +15,5 @@ void destroi_planeta (planeta p) {
 }
 
 forca atracao_planeta (planeta p, double x, double y, double m) {
-
-    return atracao (x, y, m, 0.0, 0.0, p->massa);
+    return atracao (x, y, m, 400, 300, p->massa);
 }
