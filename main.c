@@ -6,6 +6,8 @@
 #include "projetil.h"
 #define TAM 256
 
+WINDOW* w1;
+
 int main(int argc, char* argv[]) {
 
     double tp, mp, passo, t_simul; //tamanho_planeta massa_planeta tempo_simulação
@@ -18,7 +20,8 @@ int main(int argc, char* argv[]) {
     planeta plan; //planeta
     nave n1, n2; //naves
     projetil projeteis[TAM]; //lista de projeteis
-    WINDOW* janela = InitGraph (300, 300, "principal");
+    w1 = InitGraph (300, 300, "principal");
+    PIC todo;
 
     sscanf(argv[1], "%lf", &passo);
     scanf("%lf %lf %lf\n", &tp, &mp, &t_simul);
@@ -38,8 +41,8 @@ int main(int argc, char* argv[]) {
     plan = novo_planeta(mp, tp);
 
     //Criação das naves
-    n1 = nova_nave(nome1, m1, posx1, posy1, velx1, vely1);
-    n2 = nova_nave(nome2, m2, posx2, posy2, velx2, vely2);
+    n1 = nova_nave(nome1, m1, posx1, posy1, velx1, vely1, w1);
+    n2 = nova_nave(nome2, m2, posx2, posy2, velx2, vely2, w1);
 
     forca fan, fan1_plan, fan2_plan, fan1_res, fan2_res, fap, fap_res; //fan(força de atração naves); _res (resultante); 1(nave1)
 
@@ -80,6 +83,12 @@ int main(int argc, char* argv[]) {
         //Atualizar naves
         atualiza_nave(n1, passo);
         atualiza_nave(n2, passo);
+
+        PutPic(w1,MAPA,0,0,800, 600,0,0);
+        todo = NewPic(w1,800, 600);
+        imprime_nave(n1, w1, todo);
+        imprime_nave(n2, w1, todo);
+        FreePic (todo);
 
         printf("\n Iteracao numero: %d \n",k);
         printf("\n Nave 1:	");

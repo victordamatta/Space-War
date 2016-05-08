@@ -5,7 +5,9 @@
 #include <string.h> 
 #include <stdio.h>
 #include <unistd.h>
+WINDOW* w1;
 
+/*
 PIC *tardis = malloc (16 * sizeof (PIC));
 
 tardis[0] = ReadPic (w1, "tardis0.xpm", NULL);
@@ -24,9 +26,23 @@ tardis[12] = ReadPic (w1, "tardis270.xpm", NULL);
 tardis[13] = ReadPic (w1, "tardis292'30.xpm", NULL);
 tardis[14] = ReadPic (w1, "tardis315.xpm", NULL);
 tardis[15] = ReadPic (w1, "tardis337'30.xpm", NULL);
+*/
 
-nave nova_nave (char* nome, double massa, double x, double y, double velx, double vely) {
+nave nova_nave (char* nome, double massa, double x, double y, double velx, double vely, WINDOW* w1) {
+
+    PIC MAPA;
+    MASK msks[MAX_MSKS];
+    PIC pic[MAX_MSKS];
+    MAPA = ReadPic(w1, "imagens/oficial-plan.xpm", NULL);
+
     nave n = malloc (sizeof (struct Nave));
+
+    n->msks[0] = NewMask (MAPA, 32, 32);
+    n->msks[1] = NewMask (MAPA, 32, 32);
+
+    n->pic[0] = ReadPic (w1, "imagens/TARDIS/tardis0.xpm", n->msks[0]);
+    n->pic[1] = ReadPic (w1, "imagens/TARDIS/tardis180.xpm", n->msks[1]);
+
 	n->nome = nome;
     n->massa = massa;
     n->x = x;
@@ -34,6 +50,16 @@ nave nova_nave (char* nome, double massa, double x, double y, double velx, doubl
     n->velx = velx;
     n->vely = vely;
     return n;
+}
+
+// Os vetores pic e msks trabalham em conjunto para garantir que a imagem utilizada
+// sera condizente com a inclinação da nave, porem por enquanto iremos utilizar a imagem
+// referente a inclinação de 0 graus
+
+void imprime_nave (nave n, WINDOW* w1, PIC picture) {
+    PutPic (picture, n->pic[0], 0, 0, 800, 600, n->x, n->y);
+    SetMask (w1, n->msks[0]);
+    PutPic (w1, picture, n->x, n->y, 800, 600, n->x, n->y);
 }
 
 void destroi_nave (nave n) {

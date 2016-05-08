@@ -7,7 +7,11 @@ struct Nave {
     double y;
     double velx;
     double vely;
-    PIC ImagemNave;
+
+    MASK msks[MAX_MSKS];
+    PIC pic[MAX_MSKS];
+
+    double pos[MAX_MSKS];
 };
 
 typedef struct Nave * nave;
