@@ -1,5 +1,6 @@
 #ifndef NAVE_H
 #define NAVE_H
+#define MAX_MSKS 25
 struct Nave {
     char* nome;
     double massa;
@@ -7,6 +8,9 @@ struct Nave {
     double y;
     double velx;
     double vely;
+    MASK msks[MAX_MSKS];
+    PIC pic[MAX_MSKS];
+    double pos[MAX_MSKS];
 };
 
 typedef struct Nave * nave;
@@ -26,4 +30,7 @@ forca atracao_nave (nave n, double x, double y, double m);
 
 /* Altera as coordenadas da nave de acordo com a velocidade no tempo dt */
 void atualiza_nave (nave n, double dt);
+
+/* Imprime a nave n na janela w1 */
+void imprime_nave (nave n, WINDOW* w1, PIC picture);
 #endif

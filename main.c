@@ -43,7 +43,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    //NOVO
 	w1 = InitGraph(800, 600, "Jogo");
     inc = 0;
 	MAPA = ReadPic(w1, "imagens/oficial-plan.xpm", NULL);
@@ -124,9 +123,10 @@ int main(int argc, char* argv[]) {
             atualiza_projetil(projeteis[i], passo);
         }
 
-        //NOVO
 		PutPic(w1, MAPA, 0, 0, 800, 600, 0, 0);
         todo = NewPic(w1, 800, 600);
+        imprime_nave(n1, w1, todo);
+        imprime_nave(n2, w1, todo);
 		for (i = 0; i < num_proj; i++) {
 			imprime_projetil(projeteis[i], w1, todo);
 		}
