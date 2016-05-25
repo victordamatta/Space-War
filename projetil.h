@@ -11,6 +11,7 @@ struct Projetil {
     int morto;
 	MASK msks[MAX_MSKS];
 	PIC pic[MAX_MSKS];
+	double inclinacao;
 	int inc;
 	double pos[MAX_MSKS];
 	int qnt_pos;
@@ -19,7 +20,7 @@ struct Projetil {
 typedef struct Projetil * projetil;
 
 /* Constructor para um projetil */
-projetil novo_projetil (double massa, double x, double y, double velx, double vely, double tempo, int inc, WINDOW* w1);
+projetil novo_projetil (double massa, double x, double y, double velx, double vely, double tempo, double inclinacao, WINDOW* w1);
 
 /* Destructor para um projetil */
 void destroi_projetil (projetil p);

@@ -11,12 +11,13 @@ struct Nave {
     MASK msks[MAX_MSKS];
     PIC pic[MAX_MSKS];
     double pos[MAX_MSKS];
+    int inc;
 };
 
 typedef struct Nave * nave;
 
 /* Constructor para uma nave */
-nave nova_nave (char* nome, double massa, double x, double y, double velx, double vely, WINDOW* w1);
+nave nova_nave (char* nome, double massa, double x, double y, double velx, double vely, WINDOW* w1,int player,double inclinacao);
 
 /* Destructor para uma nave */
 void destroi_nave (nave n);
