@@ -92,8 +92,8 @@ int main(int argc, char* argv[]) {
     forca fan, fan1_plan, fan2_plan, fan1_res, fan2_res, fap, fap_res; //fan(força de atração naves); _res (resultante); 1(nave1)
 
     // Imprimir estado inicial
-    printf("Estado inicial\n");
-    imprime(n1, n2, projeteis, num_proj);
+    //printf("Estado inicial\n");
+    //imprime(n1, n2, projeteis, num_proj);
 
     double tempo = 0;
     k = 0;
@@ -159,8 +159,8 @@ int main(int argc, char* argv[]) {
 		UnSetMask(w1);
 		PutPic(w1, MAPA, 0, 0, 800, 600, 0, 0);
 
-        printf("Iteracao numero: %d\n",k);
-        imprime(n1, n2, projeteis, num_proj);
+        //printf("Iteracao numero: %d\n",k);
+        //imprime(n1, n2, projeteis, num_proj);
 
         tempo += passo;
         k++;
