@@ -6,6 +6,8 @@
 projetil novo_projetil (double massa, double x, double y, double velx, double vely, double tempo, double inclinacao, WINDOW* w1) {
     projetil p = malloc (sizeof (struct Projetil));
 	PIC MAPA = ReadPic(w1, "imagens/cenario.xpm", NULL);
+
+    /*
 	p->msks[0] = NewMask(MAPA, 32, 32);
 	p->msks[1] = NewMask(MAPA, 32, 32);
 	p->msks[2] = NewMask(MAPA, 32, 32);
@@ -41,6 +43,18 @@ projetil novo_projetil (double massa, double x, double y, double velx, double ve
 	p->pic[14] = ReadPic(w1, "imagens/projeteis/projetil-312.20.xpm", p->msks[14]);
 	p->pic[15] = ReadPic(w1, "imagens/projeteis/projetil-334.50.xpm", p->msks[15]);
 	p->pic[16] = ReadPic(w1, "imagens/projeteis/projetil-356.80.xpm", p->msks[16]);
+    */
+
+    int i;
+    for (i = 0; i <= 16; i++) 
+	    p->msks[i] = NewMask(MAPA, 32, 32);
+
+    char file_name[] = "imagens/projeteis/projetil-00.xpm";
+    for (i = 0; i <= 16; i++) {
+        file_name[27] = i/10 + 48;
+        file_name[28] = i%10 + 48;
+		p->pic[i] = ReadPic (w1, file_name, p->msks[i]);
+    }
 
     p->massa = massa;
     p->x = x;
