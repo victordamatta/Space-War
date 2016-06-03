@@ -36,6 +36,7 @@ int main(int argc, char* argv[]) {
     nave n1, n2; //naves
     projetil projeteis[TAM]; //lista de projeteis
 	PIC MAPA, todo;	//NOVO
+	MASK mbum, load_mask[TAM];
     WINDOW* w1;
     
     //Para testar rotação - Podem excluir depois
@@ -43,17 +44,48 @@ int main(int argc, char* argv[]) {
     int num_inc_1,num_inc_2;
     double inc_nave_1[TAM], inc_nave_2[TAM];
 	//Até aqui.
+	
+	//Para loading
+	PIC loading[TAM];
+	int cont_load = 0;
+	
+
+	printf("\n Aqui");
 
     if (argc < 2) {
         fprintf (stderr, "FALTA PARÂMETRO: dt\n");
         return 1;
     }
+    
+    printf("\n Saiu");
 
 	w1 = InitGraph(800, 600, "Jogo");
+
+	loading[0] = ReadPic(w1, "imagens/loading/loading-0.xpm", NULL);
+    PutPic(w1,loading[cont_load],0,0,800,600,0,0); cont_load++;
+	loading[1] = ReadPic(w1, "imagens/loading/loading-1.xpm", NULL);
+	PutPic(w1,loading[cont_load],0,0,800,600,0,0); cont_load++;
+	loading[2] = ReadPic(w1, "imagens/loading/loading-2.xpm", NULL);
+	PutPic(w1,loading[cont_load],0,0,800,600,0,0); cont_load++;
+	loading[3] = ReadPic(w1, "imagens/loading/loading-3.xpm", NULL);
+	PutPic(w1,loading[cont_load],0,0,800,600,0,0); cont_load++;
+	loading[4] = ReadPic(w1, "imagens/loading/loading-4.xpm", NULL);
+	PutPic(w1,loading[cont_load],0,0,800,600,0,0); cont_load++;
+	loading[5] = ReadPic(w1, "imagens/loading/loading-5.xpm", NULL);
+	PutPic(w1,loading[cont_load],0,0,800,600,0,0); cont_load++;
+	loading[6] = ReadPic(w1, "imagens/loading/loading-6.xpm", NULL);
+	PutPic(w1,loading[cont_load],0,0,800,600,0,0); cont_load++;
+	loading[7] = ReadPic(w1, "imagens/loading/loading-7.xpm", NULL);
+	PutPic(w1,loading[cont_load],0,0,800,600,0,0); cont_load++;
+	loading[8] = ReadPic(w1, "imagens/loading/loading-8.xpm", NULL);
+	PutPic(w1,loading[cont_load],0,0,800,600,0,0); cont_load++;
+	
     inc = 0;
 	//MAPA = ReadPic(w1, "imagens/oficial-plan.xpm", NULL);
 	MAPA = ReadPic(w1, "imagens/cenario.xpm", NULL);
-	PutPic(w1, MAPA, 0, 0, 800, 600, 0, 0);
+	//PutPic(w1, MAPA, 0, 0, 800, 600, 0, 0);
+
+    //PutPic(w1, bum, 0, 0, 800, 600, 50, 50);
 	
     sscanf(argv[1], "%lf", &passo);
     scanf("%lf %lf %lf\n", &tp, &mp, &t_simul);
@@ -65,6 +97,8 @@ int main(int argc, char* argv[]) {
     for(i = 0; i < num_proj; i++) {
         scanf("%lf %lf %lf %lf %lf %lf \n", &m_proj, &posx_proj, &posy_proj, &velx_proj, &vely_proj, &inc); //agora lê a inclinação também.
         projeteis[i] = novo_projetil(m_proj, posx_proj, posy_proj, velx_proj, vely_proj, temp_vida, inc, w1);
+        if(cont_load == 9) cont_load = 0;
+        PutPic(w1,loading[cont_load],0,0,800,600,0,0); cont_load++;
     }
     
     //testando inclinação das naves - também pode ser excluido posteriormente.
@@ -90,7 +124,7 @@ int main(int argc, char* argv[]) {
     n2 = nova_nave(nome2, m2, posx2, posy2, velx2, vely2, w1,2,0);
 
     forca fan, fan1_plan, fan2_plan, fan1_res, fan2_res, fap, fap_res; //fan(força de atração naves); _res (resultante); 1(nave1)
-
+	PutPic(w1, MAPA, 0, 0, 800, 600, 0, 0);
     // Imprimir estado inicial
     //printf("Estado inicial\n");
     //imprime(n1, n2, projeteis, num_proj);
@@ -153,6 +187,7 @@ int main(int argc, char* argv[]) {
             if (!projeteis[i]->morto)
                 imprime_projetil(projeteis[i], w1, todo);
 		}
+		
 		usleep(100000);
 		WClear(w1);
 		FreePic(todo);
@@ -167,6 +202,8 @@ int main(int argc, char* argv[]) {
 		aux_inc_1++;
 		aux_inc_2++;
     }
+
+    usleep(1000000000);
 
     destroi_nave(n1);
     destroi_nave(n2);
