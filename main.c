@@ -38,6 +38,9 @@ int main(int argc, char* argv[]) {
 	PIC MAPA, todo;	//NOVO
     WINDOW* w1;
 
+	PIC loading[TAM];
+	int cont_load = 0;
+
     if (argc < 2) {
         fprintf (stderr, "FALTA PARÂMETRO: dt\n");
         return 1;
@@ -45,8 +48,15 @@ int main(int argc, char* argv[]) {
 
 	w1 = InitGraph(WIDTH, HEIGHT, "Jogo");
 	MAPA = ReadPic(w1, "imagens/cenario.xpm", NULL);
-	PutPic(w1, MAPA, 0, 0, WIDTH, HEIGHT, 0, 0);
     InitKBD(w1);
+
+    char sel[] = "imagens/loading/loading-0.xpm";
+    for (i = 0; i < 9; i++) {
+        sel[24] = i + 48;
+        loading[i] = ReadPic(w1, sel, NULL);
+        PutPic(w1, loading[cont_load], 0, 0, WIDTH, HEIGHT, 0, 0);
+        cont_load = (cont_load + 1) % 9;
+    }
 
     sscanf(argv[1], "%lf", &passo);
     scanf("%lf %lf %lf\n", &tp, &mp, &t_simul);
@@ -66,6 +76,7 @@ int main(int argc, char* argv[]) {
     n2 = nova_nave(nome2, m2, posx2, posy2, velx2, vely2, w1, 2, 0);
 
     forca fan, fan1_plan, fan2_plan, fan1_res, fan2_res, fap, fap_res; //fan(força de atração naves); _res (resultante); 1(nave1)
+	PutPic(w1, MAPA, 0, 0, WIDTH, HEIGHT, 0, 0);
 
     double tempo = 0;
     k = 0;
@@ -123,6 +134,7 @@ int main(int argc, char* argv[]) {
             if (!projeteis[i]->morto)
                 imprime_projetil(projeteis[i], w1, todo);
 		}
+
 		usleep(100000);
 		WClear(w1);
 		FreePic(todo);
@@ -132,6 +144,8 @@ int main(int argc, char* argv[]) {
         tempo += passo;
         k++;
     }
+
+    usleep(1000000000);
 
     destroi_nave(n1);
     destroi_nave(n2);
