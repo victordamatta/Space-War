@@ -33,7 +33,7 @@ forca atracao_nave (nave n, double x, double y, double m);
 void atualiza_nave (nave n, double dt);
 
 /* Imprime a nave n na janela w1 */
-void imprime_nave (nave n, WINDOW* w1, PIC picture);
+void imprime_nave (nave n, WINDOW* w1);
 
 /* Rotaciona a nave n para a direita se dir = 1 e para esquerda se dir = -1 */
 void rotaciona_nave (nave n, int dir);

@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
     planeta plan; //planeta
     nave n1, n2; //naves
     projetil projeteis[TAM]; //lista de projeteis
-	PIC MAPA, todo;	//NOVO
+	PIC MAPA;
     WINDOW* w1;
 
 	PIC loading[TAM];
@@ -50,6 +50,7 @@ int main(int argc, char* argv[]) {
 	MAPA = ReadPic(w1, "imagens/cenario.xpm", NULL);
     InitKBD(w1);
 
+    /*
     char sel[] = "imagens/loading/loading-0.xpm";
     for (i = 0; i < 9; i++) {
         sel[24] = i + 48;
@@ -57,6 +58,7 @@ int main(int argc, char* argv[]) {
         PutPic(w1, loading[cont_load], 0, 0, WIDTH, HEIGHT, 0, 0);
         cont_load = (cont_load + 1) % 9;
     }
+    */
 
     sscanf(argv[1], "%lf", &passo);
     scanf("%lf %lf %lf\n", &tp, &mp, &t_simul);
@@ -127,30 +129,26 @@ int main(int argc, char* argv[]) {
         }
 
 		PutPic(w1, MAPA, 0, 0, WIDTH, HEIGHT, 0, 0);
-        todo = NewPic(w1, WIDTH, HEIGHT);
-        imprime_nave(n1, w1, todo);
-        imprime_nave(n2, w1, todo);
-		for (i = 0; i < num_proj; i++) {
-            if (!projeteis[i]->morto)
-                imprime_projetil(projeteis[i], w1, todo);
-		}
 
-		usleep(100000);
-		WClear(w1);
-		FreePic(todo);
-		UnSetMask(w1);
-		PutPic(w1, MAPA, 0, 0, WIDTH, HEIGHT, 0, 0);
+        imprime_nave(n1, w1);
+        imprime_nave(n2, w1);
+		for (i = 0; i < num_proj; i++) {
+            if (!projeteis[i]->morto) imprime_projetil(projeteis[i], w1);
+		}
 
         tempo += passo;
         k++;
-    }
 
-    usleep(1000000000);
+		usleep(100000);
+
+		WClear(w1);
+    }
 
     destroi_nave(n1);
     destroi_nave(n2);
     destroi_planeta(plan);
     for (i = 0; i < num_proj; i++) destroi_projetil(projeteis[i]);
+    FreePic (w1);
 
     return 0;
 }

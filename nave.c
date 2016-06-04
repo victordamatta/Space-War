@@ -51,10 +51,13 @@ void atualiza_nave (nave n, double dt) {
     if (n->y > HEIGHT) n->y -= HEIGHT + 50;
 }
 
-void imprime_nave (nave n, WINDOW* w1, PIC picture) {
+void imprime_nave (nave n, WINDOW* w1) {
+    PIC picture = NewPic (w1, WIDTH, HEIGHT);
     PutPic (picture, n->pic[n->inc], 0, 0, WIDTH, HEIGHT, reduz_coordenada (n->x), reduz_coordenada (n->y));
     SetMask (w1, n->msks[n->inc]);
     PutPic (w1, picture, reduz_coordenada (n->x), reduz_coordenada (n->y), WIDTH, HEIGHT, reduz_coordenada (n->x), reduz_coordenada (n->y));
+    UnSetMask (w1);
+    FreePic (picture);
 }
 
 void rotaciona_nave (nave n, int dir) {

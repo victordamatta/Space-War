@@ -52,8 +52,11 @@ void atualiza_projetil (projetil p, double dt) {
     if (p->tempo <= 0) p->morto = 1;
 }
 
-void imprime_projetil (projetil p, WINDOW* w1, PIC picture) {
+void imprime_projetil (projetil p, WINDOW* w1) {
+    PIC picture = NewPic (w1, WIDTH, HEIGHT);
 	PutPic (picture, p->pic[p->inc], 0, 0, WIDTH, HEIGHT, reduz_coordenada (p->x), reduz_coordenada (p->y));
 	SetMask (w1, p->msks[p->inc]);
 	PutPic (w1, picture, reduz_coordenada (p->x), reduz_coordenada (p->y), WIDTH, HEIGHT, reduz_coordenada (p->x), reduz_coordenada (p->y));
+    UnSetMask (w1);
+    FreePic (picture);
 }

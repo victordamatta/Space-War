@@ -36,5 +36,5 @@ forca atracao_projetil (projetil p, double x, double y, double m);
 void atualiza_projetil (projetil p, double dt);
 
 /* Imprime projetil p na janela principal */
-void imprime_projetil (projetil p, WINDOW* w1, PIC picture);
+void imprime_projetil (projetil p, WINDOW* w1);
 #endif
