@@ -7,7 +7,7 @@ planeta novo_planeta (double massa, double r) {
     planeta p = malloc (sizeof (struct Planeta));
     p->massa = massa;
     p->r = r;
-    return p; // Nao tinha return aqui
+    return p;
 }
 
 void destroi_planeta (planeta p) {
@@ -15,5 +15,5 @@ void destroi_planeta (planeta p) {
 }
 
 forca atracao_planeta (planeta p, double x, double y, double m) {
-    return atracao (x, y, m, 400, 300, p->massa);
+    return atracao (x, y, m, 400, 400, p->massa);
 }

@@ -2,12 +2,13 @@
 #include <unistd.h>
 #include "xwc.h"
 #include "bibfis.h"
+#include "graficos.h"
 #include "nave.h"
 #include "planeta.h"
 #include "projetil.h"
 #define TAM 256
 
-void imprime (nave n1, nave n2, projetil* pjs, int psz) {
+void debug (nave n1, nave n2, projetil* pjs, int psz) {
     int i;
 
     printf("Nave 1: (%s)\n",n1->nome);
@@ -30,70 +31,41 @@ int main(int argc, char* argv[]) {
     double m1, posx1, posy1, velx1, vely1; //massa1 pos_x1 pos_y1 vel_x1 vel_y1
     double m2, posx2, posy2, velx2, vely2; //massa2 pos_x2 pos_y2 vel_x2 vel_y2
     double temp_vida; //tempo_vida
-    double m_proj, posx_proj, posy_proj, velx_proj, vely_proj,inc;	//Pros projeteis
     int i, j, k, num_proj; //i, j, k contadores numero_projeteis
     planeta plan; //planeta
     nave n1, n2; //naves
     projetil projeteis[TAM]; //lista de projeteis
 	PIC MAPA, todo;	//NOVO
     WINDOW* w1;
-    
-    //Para testar rotação - Podem excluir depois
-    int aux_inc_1, aux_inc_2=0;
-    int num_inc_1,num_inc_2;
-    double inc_nave_1[TAM], inc_nave_2[TAM];
-	//Até aqui.
 
     if (argc < 2) {
         fprintf (stderr, "FALTA PARÂMETRO: dt\n");
         return 1;
     }
 
-	w1 = InitGraph(800, 600, "Jogo");
-    inc = 0;
-	//MAPA = ReadPic(w1, "imagens/oficial-plan.xpm", NULL);
+	w1 = InitGraph(WIDTH, HEIGHT, "Jogo");
 	MAPA = ReadPic(w1, "imagens/cenario.xpm", NULL);
-	PutPic(w1, MAPA, 0, 0, 800, 600, 0, 0);
-	
+	PutPic(w1, MAPA, 0, 0, WIDTH, HEIGHT, 0, 0);
+    InitKBD(w1);
+
     sscanf(argv[1], "%lf", &passo);
     scanf("%lf %lf %lf\n", &tp, &mp, &t_simul);
     scanf("%s %lf %lf %lf %lf %lf\n", nome1, &m1, &posx1, &posy1, &velx1, &vely1);
     scanf("%s %lf %lf %lf %lf %lf\n", nome2, &m2, &posx2, &posy2, &velx2, &vely2);
     scanf("%d %lf\n", &num_proj, &temp_vida);
 
-    //Criação de todos os num_proj projeteis.
-    for(i = 0; i < num_proj; i++) {
-        scanf("%lf %lf %lf %lf %lf %lf \n", &m_proj, &posx_proj, &posy_proj, &velx_proj, &vely_proj, &inc); //agora lê a inclinação também.
-        projeteis[i] = novo_projetil(m_proj, posx_proj, posy_proj, velx_proj, vely_proj, temp_vida, inc, w1);
-    }
-    
-    //testando inclinação das naves - também pode ser excluido posteriormente.
-    scanf("%d %d\n", &num_inc_1, &num_inc_2);
-    
-    for(i = 0; i < num_inc_1; i++) {
-        scanf("%lf \n", &inc_nave_1[i]);
-    }
-    
-    for(i = 0; i < num_inc_2; i++) {
-        scanf("%lf \n", &inc_nave_2[i]);
-    }
-	//Até aqui.
-    
-    
     //--------------------------Termino da leitura do aquivo -----------------------------
+
+    num_proj = 0;
 
     //Criação planeta
     plan = novo_planeta(mp, tp);
-	
+
     //Criação das naves
-    n1 = nova_nave(nome1, m1, posx1, posy1, velx1, vely1, w1,1,0);
-    n2 = nova_nave(nome2, m2, posx2, posy2, velx2, vely2, w1,2,0);
+    n1 = nova_nave(nome1, m1, posx1, posy1, velx1, vely1, w1, 1, 0);
+    n2 = nova_nave(nome2, m2, posx2, posy2, velx2, vely2, w1, 2, 0);
 
     forca fan, fan1_plan, fan2_plan, fan1_res, fan2_res, fap, fap_res; //fan(força de atração naves); _res (resultante); 1(nave1)
-
-    // Imprimir estado inicial
-    //printf("Estado inicial\n");
-    //imprime(n1, n2, projeteis, num_proj);
 
     double tempo = 0;
     k = 0;
@@ -115,9 +87,7 @@ int main(int argc, char* argv[]) {
 
         //Atualizar naves
         atualiza_nave(n1, passo);
-        if (aux_inc_1 < num_inc_1) n1->inc = inc_nave_1[aux_inc_1] / 22.30;
         atualiza_nave(n2, passo);
-        if (aux_inc_2 < num_inc_2) n2->inc = inc_nave_2[aux_inc_2] / 22.30;
 
         //Atracao dos projeteis
         for (i = 0; i < num_proj; i++) {
@@ -145,8 +115,8 @@ int main(int argc, char* argv[]) {
             atualiza_projetil(projeteis[i], passo);
         }
 
-		PutPic(w1, MAPA, 0, 0, 800, 600, 0, 0);
-        todo = NewPic(w1, 800, 600);
+		PutPic(w1, MAPA, 0, 0, WIDTH, HEIGHT, 0, 0);
+        todo = NewPic(w1, WIDTH, HEIGHT);
         imprime_nave(n1, w1, todo);
         imprime_nave(n2, w1, todo);
 		for (i = 0; i < num_proj; i++) {
@@ -157,15 +127,10 @@ int main(int argc, char* argv[]) {
 		WClear(w1);
 		FreePic(todo);
 		UnSetMask(w1);
-		PutPic(w1, MAPA, 0, 0, 800, 600, 0, 0);
-
-        //printf("Iteracao numero: %d\n",k);
-        //imprime(n1, n2, projeteis, num_proj);
+		PutPic(w1, MAPA, 0, 0, WIDTH, HEIGHT, 0, 0);
 
         tempo += passo;
         k++;
-		aux_inc_1++;
-		aux_inc_2++;
     }
 
     destroi_nave(n1);

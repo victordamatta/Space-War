@@ -17,7 +17,7 @@ struct Nave {
 typedef struct Nave * nave;
 
 /* Constructor para uma nave */
-nave nova_nave (char* nome, double massa, double x, double y, double velx, double vely, WINDOW* w1,int player,double inclinacao);
+nave nova_nave (char* nome, double massa, double x, double y, double velx, double vely, WINDOW* w1, int player, int inclinacao);
 
 /* Destructor para uma nave */
 void destroi_nave (nave n);
@@ -34,4 +34,7 @@ void atualiza_nave (nave n, double dt);
 
 /* Imprime a nave n na janela w1 */
 void imprime_nave (nave n, WINDOW* w1, PIC picture);
+
+/* Rotaciona a nave n para a direita se dir = 1 e para esquerda se dir = -1 */
+void rotaciona_nave (nave n, int dir);
 #endif

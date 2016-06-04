@@ -1,11 +1,12 @@
 #include "bibfis.h"
 #include "xwc.h"
+#include "graficos.h"
 #include <stdlib.h>
-#include <string.h> 
+#include <string.h>
 #include <stdio.h>
 #include "nave.h"
 
-nave nova_nave (char* nome, double massa, double x, double y, double velx, double vely, WINDOW* w1, int player, double inclinacao) {
+nave nova_nave (char* nome, double massa, double x, double y, double velx, double vely, WINDOW* w1, int player, int inclinacao) {
     nave n = malloc (sizeof (struct Nave));
     PIC MAPA = ReadPic(w1, "imagens/cenario.xpm", NULL);
 
@@ -27,7 +28,7 @@ nave nova_nave (char* nome, double massa, double x, double y, double velx, doubl
     n->y = y;
     n->velx = velx;
     n->vely = vely;
-    n->inc = inclinacao / 22.30;
+    n->inc = inclinacao;
     return n;
 }
 
@@ -46,12 +47,16 @@ forca atracao_nave (nave n, double x, double y, double m) {
 void atualiza_nave (nave n, double dt) {
     n->x += dt * n->velx;
     n->y += dt * n->vely;
-    if (n->x > 800) n->x -= 850;
-    if (n->y > 600) n->y -= 650;
+    if (n->x > WIDTH) n->x -= WIDTH + 50;
+    if (n->y > HEIGHT) n->y -= HEIGHT + 50;
 }
 
 void imprime_nave (nave n, WINDOW* w1, PIC picture) {
-    PutPic (picture, n->pic[n->inc], 0, 0, 800, 600, n->x, n->y);
+    PutPic (picture, n->pic[n->inc], 0, 0, WIDTH, HEIGHT, reduz_coordenada (n->x), reduz_coordenada (n->y));
     SetMask (w1, n->msks[n->inc]);
-    PutPic (w1, picture, n->x, n->y, 800, 600, n->x, n->y);
+    PutPic (w1, picture, reduz_coordenada (n->x), reduz_coordenada (n->y), WIDTH, HEIGHT, reduz_coordenada (n->x), reduz_coordenada (n->y));
+}
+
+void rotaciona_nave (nave n, int dir) {
+    n->inc += dir;
 }

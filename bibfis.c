@@ -50,6 +50,7 @@ void velocidade (forca aplicada, double massa, double t, double *vx, double *vy)
     *vx += (aplicada.x * t) / massa;
     *vy += (aplicada.y * t) / massa;
 }
+
 /*
 int main (){
 
