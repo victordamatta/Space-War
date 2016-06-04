@@ -4,9 +4,8 @@
 #include <stdlib.h>
 #include "projetil.h"
 
-projetil novo_projetil (double massa, double x, double y, double velx, double vely, double tempo, int inclinacao, WINDOW* w1) {
+projetil novo_projetil (double x, double y, int inclinacao, WINDOW* w1, PIC MAPA) {
     projetil p = malloc (sizeof (struct Projetil));
-	PIC MAPA = ReadPic(w1, "imagens/cenario.xpm", NULL);
 
     int i;
     for (i = 0; i <= 16; i++)
@@ -19,12 +18,13 @@ projetil novo_projetil (double massa, double x, double y, double velx, double ve
 		p->pic[i] = ReadPic (w1, file_name, p->msks[i]);
     }
 
-    p->massa = massa;
+    //VALORES PRECISAM SER AJUSTADOS
+    p->massa = 100;
     p->x = x;
     p->y = y;
-    p->velx = velx;
-    p->vely = vely;
-    p->tempo = tempo;
+    p->velx = 50; //SUBSTITUIR POR FUNCAO DA INCLINACAO
+    p->vely = 50; //SUBSTITUIR POR FUNCAO DA INCLINACAO
+    p->tempo = 1000;
     p->morto = 0;
     p->inc = inclinacao;
     p->qnt_pos = 0;

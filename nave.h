@@ -37,4 +37,7 @@ void imprime_nave (nave n, WINDOW* w1);
 
 /* Rotaciona a nave n para a direita se dir = 1 e para esquerda se dir = -1 */
 void rotaciona_nave (nave n, int dir);
+
+/* Dispara um projetil da nave n */
+projetil atira (nave n, WINDOW* w1, PIC MAPA);
 #endif

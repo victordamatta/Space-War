@@ -3,9 +3,9 @@
 #include "xwc.h"
 #include "bibfis.h"
 #include "graficos.h"
-#include "nave.h"
 #include "planeta.h"
 #include "projetil.h"
+#include "nave.h"
 #define TAM 256
 
 void debug (nave n1, nave n2, projetil* pjs, int psz) {
@@ -83,6 +83,38 @@ int main(int argc, char* argv[]) {
     double tempo = 0;
     k = 0;
     while (tempo < t_simul) {
+        //Input do teclado
+        if (WCheckKBD (w1)) {
+            switch (WGetKey (w1)) {
+                case 25:
+                    n1->velx += 50; //TROCAR POR FUNCAO DA INCLINACAO
+                    n1->vely += 50; //TROCAR POR FUNCAO DA INCLINACAO
+                    break;
+                case 38:
+                    rotaciona_nave (n1, -1);
+                    break;
+                case 39:
+                    projeteis[num_proj++] = atira (n1, w1, MAPA); //CAUSE FLICK NA TELA
+                    break;
+                case 40:
+                    rotaciona_nave (n1, 1);
+                    break;
+                case 111:
+                    n1->velx += 50; //TROCAR POR FUNCAO DA INCLINACAO
+                    n1->vely += 50; //TROCAR POR FUNCAO DA INCLINACAO
+                    break;
+                case 113:
+                    rotaciona_nave (n2, -1);
+                    break;
+                case 116:
+                    projeteis[num_proj++] = atira (n2, w1, MAPA); //CAUSE FLICK NA TELA
+                    break;
+                case 114:
+                    rotaciona_nave (n2, 1);
+                    break;
+            }
+        }
+
         //Atração entre as naves
         fan = atracao_nave(n1, n2->x, n2->y, n2->massa);
 
@@ -128,6 +160,7 @@ int main(int argc, char* argv[]) {
             atualiza_projetil(projeteis[i], passo);
         }
 
+        //Fase de impressao
 		PutPic(w1, MAPA, 0, 0, WIDTH, HEIGHT, 0, 0);
 
         imprime_nave(n1, w1);

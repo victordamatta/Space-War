@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include "projetil.h"
 #include "nave.h"
 
 nave nova_nave (char* nome, double massa, double x, double y, double velx, double vely, WINDOW* w1, int player, int inclinacao) {
@@ -61,5 +62,11 @@ void imprime_nave (nave n, WINDOW* w1) {
 }
 
 void rotaciona_nave (nave n, int dir) {
-    n->inc += dir;
+    n->inc = (n->inc + dir) % 17;
+    if (n->inc < 0) n->inc += 17;
+}
+
+projetil atira (nave n, WINDOW* w1, PIC MAPA) {
+    //DIRECAO ERRADA, TEM QUE SER PERPENDICULAR A NAVE
+    return novo_projetil (n->x, n->y, n->inc, w1, MAPA);
 }
