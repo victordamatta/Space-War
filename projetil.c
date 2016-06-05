@@ -7,10 +7,11 @@
 projetil novo_projetil (double x, double y, int inclinacao, WINDOW* w1, PIC MAPA) {
     projetil p = malloc (sizeof (struct Projetil));
 
-    int i;
+    /*int i;
     for (i = 0; i <= 16; i++)
         p->msks[i] = NewMask(MAPA, 32, 32);
 
+	
     char file_name[] = "imagens/projeteis/projetil-00.xpm";
     for (i = 0; i <= 16; i++) {
         file_name[27] = i/10 + 48;
@@ -18,6 +19,10 @@ projetil novo_projetil (double x, double y, int inclinacao, WINDOW* w1, PIC MAPA
 		p->pic[i] = ReadPic (w1, file_name, p->msks[i]);
     }
 
+	*/
+	
+	p->msks[0] = NewMask(MAPA,32,32);
+	p->pic[0] = ReadPic(w1,"imagens/projeteis/projetil.xpm",p->msks[0]);
     //VALORES PRECISAM SER AJUSTADOS
     p->massa = 100;
     p->x = x;

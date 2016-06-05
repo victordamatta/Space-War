@@ -37,4 +37,5 @@ void atualiza_projetil (projetil p, double dt);
 
 /* Imprime projetil p na janela principal */
 void imprime_projetil (projetil p, WINDOW* w1);
+
 #endif
