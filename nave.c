@@ -12,12 +12,12 @@ nave nova_nave (char* nome, double massa, double x, double y, double velx, doubl
     PIC MAPA = ReadPic(w1, "imagens/cenario.xpm", NULL);
 
     int i;
-    for (i = 0; i <= 16; i++) 
+    for (i = 0; i < 16; i++) 
         n->msks[i] = NewMask (MAPA, 32, 32);
 
     char file_name[] = "imagens/naves/nave1-00.xpm";
     file_name[18] = player + 48;
-    for (i = 0; i <= 16; i++) {
+    for (i = 0; i < 16; i++) {
         file_name[20] = i/10 + 48;
         file_name[21] = i%10 + 48;
 		n->pic[i] = ReadPic (w1, file_name, n->msks[i]);
@@ -48,42 +48,35 @@ forca atracao_nave (nave n, double x, double y, double m) {
 void atualiza_nave (nave n, double dt) {
     n->x += dt * n->velx;
     n->y += dt * n->vely;
+    //DEBUG
     if (n->x > WIDTH) n->x -= WIDTH + 50;
     if (n->y > HEIGHT) n->y -= HEIGHT + 50;
 }
 
 void imprime_nave (nave n, WINDOW* w1) {
     PIC picture = NewPic (w1, WIDTH, HEIGHT);
-    PutPic (picture, n->pic[n->inc], 0, 0, WIDTH, HEIGHT, reduz_coordenada (n->x), reduz_coordenada (n->y));
+    PutPic (picture, n->pic[n->inc], 0, 0, WIDTH, HEIGHT, reduz_coordenada (n->x) - NAVE_RAIO, reduz_coordenada (n->y) - NAVE_RAIO);
     SetMask (w1, n->msks[n->inc]);
-    PutPic (w1, picture, reduz_coordenada (n->x), reduz_coordenada (n->y), WIDTH, HEIGHT, reduz_coordenada (n->x), reduz_coordenada (n->y));
+    PutPic (w1, picture, reduz_coordenada (n->x) - NAVE_RAIO, reduz_coordenada (n->y) - NAVE_RAIO, WIDTH, HEIGHT, reduz_coordenada (n->x) - NAVE_RAIO, reduz_coordenada (n->y) - NAVE_RAIO);
     UnSetMask (w1);
     FreePic (picture);
 }
 
 void rotaciona_nave (nave n, int dir) {
-    n->inc = (n->inc + dir) % 17;
-    if (n->inc < 0) n->inc += 17;
+    n->inc = (n->inc + dir) % 16;
+    if (n->inc < 0) n->inc += 16;
 }
 
 projetil atira (nave n, WINDOW* w1, PIC MAPA) {
-    //DIRECAO ERRADA, TEM QUE SER PERPENDICULAR A NAVE
-    return novo_projetil (n->x, n->y, n->inc, w1, MAPA);
+    componentes comp = decomposicao (amplia_distancia (90), n->inc);
+    return novo_projetil (comp.x, comp.y, w1, MAPA);
 }
 
-int colisaonn (nave n1, nave n2) {
-    if (((n1->x - n2->x) * (n1->x - n2->x)) + ((n1->y - n2->y) * (n1->y - n2->y)) <= 210 * 210) return 1;
-    return 0;
-}
-
-int colisaonpr (nave n, projetil p) {
-    if (((n->x - p->x) * (n->x - p->x)) + ((n->y - p->y) * (n->y - p->y)) <= 110 * 110) {
-        p->morto = 1;
-        return 1;
-    }
-    return 0;
-}
-int colisaonpl (nave n, planeta p) {
-    if (((n->x - 400) * (n->x - 400)) + ((n->y - 400) * (n->y - 400)) <= (105 + p->r) * (105 + p->r)) return 1;
+int colisao (nave n, double x, double y, int size) {
+    int nx = reduz_coordenada (n->x);
+    int ny = reduz_coordenada (n->y);
+    int xx = reduz_coordenada (x);
+    int yy = reduz_coordenada (y);
+    if ((nx - xx)*(nx - xx) + (ny - yy)*(ny - yy) < (size + NAVE_RAIO)*(size + NAVE_RAIO)) return 1;
     return 0;
 }

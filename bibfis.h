@@ -1,11 +1,12 @@
 #ifndef BIBFIS_H
 #define BIBFIS_H
 
-struct Forca {
+struct Componentes {
   double x, y;
 };
 
-typedef struct Forca forca;
+typedef struct Componentes forca;
+typedef struct Componentes componentes;
 
 // A funcao atracao retorna a forca gravitacional causada em A por B
 forca atracao (double xa, double ya, double ma, double xb, double yb, double mb);
@@ -17,8 +18,7 @@ forca resultante (forca a, forca b);
 // sofrendo acao da forca aplicada por t segundos
 void velocidade (forca aplicada, double massa, double t, double *vx, double *vy);
 
-// A funcao componentesvelocidade, dadas as coordenadas de um objeto e sua velocidade
-// devolve o valor das componentes da mesma em duas variaveis cujo endereco tambem
-// e passado como argumento
-void componentesvelocidade (double v, double x, double y, double *vx, double *vy);
+// Retorna as componentes x e y de uma grandeza de intensidade intensidade e direcao
+// inclinacao
+componentes decomposicao (double intensidade, int inclinacao);
 #endif

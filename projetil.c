@@ -4,35 +4,19 @@
 #include <stdlib.h>
 #include "projetil.h"
 
-projetil novo_projetil (double x, double y, int inclinacao, WINDOW* w1, PIC MAPA) {
+projetil novo_projetil (double x, double y, WINDOW* w1, PIC MAPA) {
     projetil p = malloc (sizeof (struct Projetil));
-
-    /*int i;
-    for (i = 0; i <= 16; i++)
-        p->msks[i] = NewMask(MAPA, 32, 32);
-
 	
-    char file_name[] = "imagens/projeteis/projetil-00.xpm";
-    for (i = 0; i <= 16; i++) {
-        file_name[27] = i/10 + 48;
-        file_name[28] = i%10 + 48;
-		p->pic[i] = ReadPic (w1, file_name, p->msks[i]);
-    }
-
-	*/
-	
-	p->msks[0] = NewMask(MAPA,32,32);
-	p->pic[0] = ReadPic(w1,"imagens/projeteis/projetil.xpm",p->msks[0]);
+	p->mask = NewMask(MAPA, 32, 32);
+	p->pic = ReadPic(w1, "imagens/projeteis/projetil.xpm", p->mask);
     //VALORES PRECISAM SER AJUSTADOS
-    p->massa = 100;
+    p->massa = 10;
     p->x = x;
     p->y = y;
-    p->velx = 50; //SUBSTITUIR POR FUNCAO DA INCLINACAO
-    p->vely = 50; //SUBSTITUIR POR FUNCAO DA INCLINACAO
+    p->velx = 500; //SUBSTITUIR POR FUNCAO DA INCLINACAO
+    p->vely = 500; //SUBSTITUIR POR FUNCAO DA INCLINACAO
     p->tempo = 1000;
     p->morto = 0;
-    p->inc = inclinacao;
-    p->qnt_pos = 0;
     return p;
 }
 
@@ -59,8 +43,8 @@ void atualiza_projetil (projetil p, double dt) {
 
 void imprime_projetil (projetil p, WINDOW* w1) {
     PIC picture = NewPic (w1, WIDTH, HEIGHT);
-	PutPic (picture, p->pic[p->inc], 0, 0, WIDTH, HEIGHT, reduz_coordenada (p->x), reduz_coordenada (p->y));
-	SetMask (w1, p->msks[p->inc]);
+	PutPic (picture, p->pic, 0, 0, WIDTH, HEIGHT, reduz_coordenada (p->x), reduz_coordenada (p->y));
+	SetMask (w1, p->mask);
 	PutPic (w1, picture, reduz_coordenada (p->x), reduz_coordenada (p->y), WIDTH, HEIGHT, reduz_coordenada (p->x), reduz_coordenada (p->y));
     UnSetMask (w1);
     FreePic (picture);

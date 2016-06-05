@@ -6,7 +6,8 @@
 #include "planeta.h"
 #include "projetil.h"
 #include "nave.h"
-#define TAM 256
+#define TAM 1000000
+#define NOME_TAM 256
 
 void debug (nave n1, nave n2, projetil* pjs, int psz) {
     int i;
@@ -27,7 +28,7 @@ void debug (nave n1, nave n2, projetil* pjs, int psz) {
 
 int main(int argc, char* argv[]) {
     double tp, mp, passo, t_simul; //tamanho_planeta massa_planeta tempo_simulação
-    char nome1[TAM], nome2[TAM]; //Nome dos planetas
+    char nome1[NOME_TAM], nome2[NOME_TAM]; //Nome dos planetas
     double m1, posx1, posy1, velx1, vely1; //massa1 pos_x1 pos_y1 vel_x1 vel_y1
     double m2, posx2, posy2, velx2, vely2; //massa2 pos_x2 pos_y2 vel_x2 vel_y2
     double temp_vida; //tempo_vida
@@ -37,9 +38,6 @@ int main(int argc, char* argv[]) {
     projetil projeteis[TAM]; //lista de projeteis
 	PIC MAPA;
     WINDOW* w1;
-
-	PIC loading[TAM];
-	int cont_load = 0;
 
     if (argc < 2) {
         fprintf (stderr, "FALTA PARÂMETRO: dt\n");
@@ -51,12 +49,15 @@ int main(int argc, char* argv[]) {
     InitKBD(w1);
 
     /*
+	PIC loading[10];
+	int cont_load = 0;
+
     char sel[] = "imagens/loading/loading-0.xpm";
-    for (i = 0; i < 9; i++) {
+    for (i = 0; i < 8; i++) {
         sel[24] = i + 48;
         loading[i] = ReadPic(w1, sel, NULL);
         PutPic(w1, loading[cont_load], 0, 0, WIDTH, HEIGHT, 0, 0);
-        cont_load = (cont_load + 1) % 9;
+        cont_load = (cont_load + 1) % 8;
     }
     */
 
@@ -77,7 +78,7 @@ int main(int argc, char* argv[]) {
 
     //Criação das naves
     n1 = nova_nave(nome1, m1, posx1, posy1, velx1, vely1, w1, 1, 0);
-    n2 = nova_nave(nome2, m2, posx2, posy2, velx2, vely2, w1, 2, 0);
+    n2 = nova_nave(nome2, m2, posx2, posy2, velx2, vely2, w1, 2, 8);
 
     forca fan, fan1_plan, fan2_plan, fan1_res, fan2_res, fap, fap_res; //fan(força de atração naves); _res (resultante); 1(nave1)
 	PutPic(w1, MAPA, 0, 0, WIDTH, HEIGHT, 0, 0);
@@ -85,6 +86,32 @@ int main(int argc, char* argv[]) {
     double tempo = 0;
     k = 0;
     while (tempo < t_simul) {
+        //Deteccao de colisao
+        if (colisao (n1, n2->x, n2->y, NAVE_RAIO)){
+            perdeu1 = 1;
+            perdeu2 = 1;
+        }
+        if (colisao (n1, 0, 0, 100)) perdeu1 = 1;
+        if (colisao (n2, 0, 0, 100)) perdeu2 = 1;
+        for (i = 0; i < num_proj; i++) {
+            if (colisao (n1, projeteis[i]->x, projeteis[i]->y, 0)) perdeu1 = 1;
+            if (colisao (n2, projeteis[i]->x, projeteis[i]->y, 0)) perdeu2 = 1;
+        }
+
+        //Game Over
+        if (perdeu1 && perdeu2) {
+            printf ("Empate!\n");
+            return 0;
+        }
+        else if (perdeu1) {
+            printf ("%s ganhou!\n", n2->nome);
+            return 0;
+        }
+        else if (perdeu2) {
+            printf ("%s ganhou!\n", n1->nome);
+            return 0;
+        }
+
         //Input do teclado
         if (WCheckKBD (w1)) {
             switch (WGetKey (w1)) {
@@ -116,6 +143,7 @@ int main(int argc, char* argv[]) {
                     break;
             }
         }
+
 
         //Atração entre as naves
         fan = atracao_nave(n1, n2->x, n2->y, n2->massa);
@@ -160,35 +188,23 @@ int main(int argc, char* argv[]) {
 
             //atualiza projetil
             atualiza_projetil(projeteis[i], passo);
-
-            //verifica se o projetil atingiu a nave
-            perdeu1 = colisaonpr(n1, projeteis[i]);
-            perdeu2 = colisaonpr(n2, projeteis[i]);
         }
-
-        //Verificacao das Colisoes
-        if (colisaonn(n1, n2) == 1){
-            perdeu1 = 1;
-            perdeu2 = 1;
-        }
-        if (colisaonpl(n1, plan) == 1) perdeu1 = 1;
-        if (colisaonpl(n2, plan) == 1) perdeu2 = 1;
 
         //Fase de impressao
-		PutPic(w1, MAPA, 0, 0, WIDTH, HEIGHT, 0, 0);
+        PutPic(w1, MAPA, 0, 0, WIDTH, HEIGHT, 0, 0);
 
         imprime_nave(n1, w1);
         imprime_nave(n2, w1);
-		for (i = 0; i < num_proj; i++) {
+        for (i = 0; i < num_proj; i++) {
             if (!projeteis[i]->morto) imprime_projetil(projeteis[i], w1);
-		}
+        }
 
         tempo += passo;
         k++;
 
-		usleep(100000);
+        usleep(100000);
 
-		WClear(w1);
+        WClear(w1);
     }
 
     destroi_nave(n1);
