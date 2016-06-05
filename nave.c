@@ -70,3 +70,20 @@ projetil atira (nave n, WINDOW* w1, PIC MAPA) {
     //DIRECAO ERRADA, TEM QUE SER PERPENDICULAR A NAVE
     return novo_projetil (n->x, n->y, n->inc, w1, MAPA);
 }
+
+int colisaonn (nave n1, nave n2) {
+    if (((n1->x - n2->x) * (n1->x - n2->x)) + ((n1->y - n2->y) * (n1->y - n2->y)) <= 210 * 210) return 1;
+    return 0;
+}
+
+int colisaonpr (nave n, projetil p) {
+    if (((n->x - p->x) * (n->x - p->x)) + ((n->y - p->y) * (n->y - p->y)) <= 110 * 110) {
+        p->morto = 1;
+        return 1;
+    }
+    return 0;
+}
+int colisaonpl (nave n, planeta p) {
+    if (((n->x - 400) * (n->x - 400)) + ((n->y - 400) * (n->y - 400)) <= (105 + p->r) * (105 + p->r)) return 1;
+    return 0;
+}

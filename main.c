@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
     double m1, posx1, posy1, velx1, vely1; //massa1 pos_x1 pos_y1 vel_x1 vel_y1
     double m2, posx2, posy2, velx2, vely2; //massa2 pos_x2 pos_y2 vel_x2 vel_y2
     double temp_vida; //tempo_vida
-    int i, j, k, num_proj; //i, j, k contadores numero_projeteis
+    int i, j, k, num_proj, perdeu1, perdeu2; //i, j, k contadores numero_projeteis, indicadores se a nave perdeu ou não
     planeta plan; //planeta
     nave n1, n2; //naves
     projetil projeteis[TAM]; //lista de projeteis
@@ -69,6 +69,8 @@ int main(int argc, char* argv[]) {
     //--------------------------Termino da leitura do aquivo -----------------------------
 
     num_proj = 0;
+    perdeu1 = 0;
+    perdeu2 = 0;
 
     //Criação planeta
     plan = novo_planeta(mp, tp);
@@ -158,7 +160,19 @@ int main(int argc, char* argv[]) {
 
             //atualiza projetil
             atualiza_projetil(projeteis[i], passo);
+
+            //verifica se o projetil atingiu a nave
+            perdeu1 = colisaonpr(n1, projeteis[i]);
+            perdeu2 = colisaonpr(n2, projeteis[i]);
         }
+
+        //Verificacao das Colisoes
+        if (colisaonn(n1, n2) == 1){
+            perdeu1 = 1;
+            perdeu2 = 1;
+        }
+        if (colisaonpl(n1, plan) == 1) perdeu1 = 1;
+        if (colisaonpl(n2, plan) == 1) perdeu2 = 1;
 
         //Fase de impressao
 		PutPic(w1, MAPA, 0, 0, WIDTH, HEIGHT, 0, 0);

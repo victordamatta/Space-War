@@ -51,6 +51,30 @@ void velocidade (forca aplicada, double massa, double t, double *vx, double *vy)
     *vy += (aplicada.y * t) / massa;
 }
 
+void componentesvelocidade (double v, double x, double y, double *vx, double *vy){
+    double d = pow(x - 400, 2) + pow(y - 400, 2);
+    if (y > 400){
+        *vx = (-1) * sqrt(pow(v, 2) / (1 + (d / pow(v, 2))));
+        if (x > 400)
+            *vy = (-1) * (sqrt(d)) * (*vx / d);
+        else if (x < 400)
+            *vy = (sqrt(d)) * (*vx / d);
+        else *vy = 0;
+    } 
+    else if (y < 400){
+        *vx = sqrt(pow(v, 2) / (1 + (d / pow(v, 2))));
+        if (x > 400)
+            *vy = (sqrt(d)) * (*vx / d);
+        else if (x < 400)
+            *vy = (-1) * (sqrt(d)) * (*vx / d);
+        else *vy = 0;
+    }
+    else {
+        *vx = 0;
+        if (x > 400) *vy = sqrt(pow(v, 2));
+        else *vy = (-1) * sqrt(pow(v, 2));
+    }
+}
 /*
 int main (){
 

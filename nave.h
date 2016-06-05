@@ -40,4 +40,12 @@ void rotaciona_nave (nave n, int dir);
 
 /* Dispara um projetil da nave n */
 projetil atira (nave n, WINDOW* w1, PIC MAPA);
+
+/* As funcoes a baixo verificam respectivamente : colisao de nave com nave, 
+ * colisao de nave com projetil, e colisao de nave com planeta*/
+int colisaonn (nave n1, nave n2);
+
+int colisaonpr (nave n, projetil p);
+
+int colisaonpl (nave n, planeta p);
 #endif
