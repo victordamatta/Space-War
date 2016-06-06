@@ -54,7 +54,7 @@ void velocidade (forca aplicada, double massa, double t, double *vx, double *vy)
 componentes decomposicao (double intensidade, int inclinacao) {
 
     double xmod[] = {0, 0.382, 0.707, 0.923, 1, 0.923, 0.707, 0.382, 0, -0.382, -0.707, -0.923, -1, -0.923, -0.707, -0.382};
-    double ymod[] = {1, 0.923, 0.707, 0.382, 0, -0.382, -0.707, -0.923, -1, -0.923, -0.707, -0.382, 0, 0.382, 0.707, 0.923};
+    double ymod[] = {-1, -0.923, -0.707, -0.382, 0, 0.382, 0.707, 0.923, 1, 0.923, 0.707, 0.382, 0, -0.382, -0.707, -0.923};
     struct Componentes comp;
     comp.x = xmod[inclinacao]*intensidade;
     comp.y = ymod[inclinacao]*intensidade;

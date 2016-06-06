@@ -1,5 +1,6 @@
 #ifndef PLANETA_H
 #define PLANETA_H
+#define PLANETA_RAIO 80
 struct Planeta {
     double massa;
     double r;

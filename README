@@ -5,7 +5,8 @@ Integrantes:
     Victor Aliende da Matta 9298145
 
 Manual de Usuário:
-    O programa toma como parâmetro obrigatório o tempo entre cada iteração do cálculo de posições e lê da entrada padrão um arquivo com as seguintes especificações:
+    O programa toma como parâmetro obrigatório o tempo entre cada iteração do 
+    cálculo de posições e lê da entrada padrão um arquivo com as seguintes especificações:
     A primeira linha tem os parâmetros globais, separados por espaço:
     1.  Tamanho do planeta (raio).
     2.  Massa do planeta.
@@ -18,9 +19,16 @@ Manual de Usuário:
     5.  Componente x da velocidade da nave.
     6.  Componente y da velocidade da nave.
     A terceira linha descreve a segunda nave, da mesma forma.
-    A quarta linha indicará o número de projéteis e a duração (tempo de vida) deles.
-    As  linhas  seguintes  conterão  a  descrição  de  cada  projétil,  da  mesma forma que nas naves, mas sem o campo nome.
 
-    O programa então escreve na saída padrão a posição e velocidade atual das naves e projéteis,
-a cada passo de tempo determinado pelo parâmetro. Além disso, ele abre uma janela, onde os
-objetos são desenhados se movendo.
+    O programa então abre uma janela onde são desenhados os gráficos e o jogo começa:
+    O jogador 1 (vermelho) pode rotacionar sua nave com as teclas A e D, impulsionar para frente com W e atirar com S.
+    Similarmente, o jogador 2 (azul) se move com as setas do teclado, movendo com <, >, 
+    impulsionando com ^ e atirando com v.
+    
+    O jogo termina quando uma nave colide com alguma coisa, a janela é fechada,
+    e o programa escreve no terminal quem foi o vencedor.
+
+NOTAS:
+- Recomendamos compilar o programa com make main e rodá-lo com o comando: ./main 100 < Dados/monitor.txt
+- O programa pode ter um problema quando os dois jogadores seguram uma tecla, isso acontece porque
+o próprio teclado "escolhe" uma das teclas e a manda repetidamente.

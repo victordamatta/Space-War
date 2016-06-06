@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
     planeta plan; //planeta
     nave n1, n2; //naves
     projetil projeteis[TAM]; //lista de projeteis
-	PIC MAPA;
+	PIC MAPA, mascara_proj, pic_proj;
     WINDOW* w1;
 
     if (argc < 2) {
@@ -80,6 +80,9 @@ int main(int argc, char* argv[]) {
     n1 = nova_nave(nome1, m1, posx1, posy1, velx1, vely1, w1, 1, 0);
     n2 = nova_nave(nome2, m2, posx2, posy2, velx2, vely2, w1, 2, 8);
 
+    mascara_proj = NewMask (MAPA, 32, 32);
+    pic_proj = ReadPic (w1, "imagens/projeteis/projetil.xpm", mascara_proj);
+
     forca fan, fan1_plan, fan2_plan, fan1_res, fan2_res, fap, fap_res; //fan(força de atração naves); _res (resultante); 1(nave1)
 	PutPic(w1, MAPA, 0, 0, WIDTH, HEIGHT, 0, 0);
 
@@ -91,9 +94,10 @@ int main(int argc, char* argv[]) {
             perdeu1 = 1;
             perdeu2 = 1;
         }
-        if (colisao (n1, 0, 0, 100)) perdeu1 = 1;
-        if (colisao (n2, 0, 0, 100)) perdeu2 = 1;
+        if (colisao (n1, 0, 0, PLANETA_RAIO)) perdeu1 = 1;
+        if (colisao (n2, 0, 0, PLANETA_RAIO)) perdeu2 = 1;
         for (i = 0; i < num_proj; i++) {
+            if (projeteis[i]->morto) continue;
             if (colisao (n1, projeteis[i]->x, projeteis[i]->y, 0)) perdeu1 = 1;
             if (colisao (n2, projeteis[i]->x, projeteis[i]->y, 0)) perdeu2 = 1;
         }
@@ -104,43 +108,44 @@ int main(int argc, char* argv[]) {
             return 0;
         }
         else if (perdeu1) {
-            printf ("%s ganhou!\n", n2->nome);
+            printf ("%s ganhou (Azul)!\n", n2->nome);
             return 0;
         }
         else if (perdeu2) {
-            printf ("%s ganhou!\n", n1->nome);
+            printf ("%s ganhou (Vermelho)!\n", n1->nome);
             return 0;
         }
 
         //Input do teclado
-        if (WCheckKBD (w1)) {
-            switch (WGetKey (w1)) {
-                case 25:
-                    n1->velx += 50; //TROCAR POR FUNCAO DA INCLINACAO
-                    n1->vely += 50; //TROCAR POR FUNCAO DA INCLINACAO
-                    break;
-                case 38:
-                    rotaciona_nave (n1, -1);
-                    break;
-                case 39:
-                    projeteis[num_proj++] = atira (n1, w1, MAPA); //CAUSE FLICK NA TELA
-                    break;
-                case 40:
-                    rotaciona_nave (n1, 1);
-                    break;
-                case 111:
-                    n1->velx += 50; //TROCAR POR FUNCAO DA INCLINACAO
-                    n1->vely += 50; //TROCAR POR FUNCAO DA INCLINACAO
-                    break;
-                case 113:
-                    rotaciona_nave (n2, -1);
-                    break;
-                case 116:
-                    projeteis[num_proj++] = atira (n2, w1, MAPA); //CAUSE FLICK NA TELA
-                    break;
-                case 114:
-                    rotaciona_nave (n2, 1);
-                    break;
+        while (WCheckKBD (w1)) {
+            int k = WGetKey (w1);
+            if (k == 25) {
+                componentes comp = decomposicao (NAVE_VELOCIDADE, n1->inc);
+                n1->velx += comp.x;
+                n1->vely += comp.y;
+            }
+            else if (k == 38) {
+                rotaciona_nave (n1, -1);
+            }
+            else if (k == 39) {
+                projeteis[num_proj++] = atira (n1, mascara_proj, pic_proj);
+            }
+            else if (k == 40) {
+                rotaciona_nave (n1, 1);
+            }
+            else if (k == 111) {
+                componentes comp = decomposicao (NAVE_VELOCIDADE, n2->inc);
+                n2->velx += comp.x;
+                n2->vely += comp.y;
+            }
+            else if (k == 113) {
+                rotaciona_nave (n2, -1);
+            }
+            else if (k == 116) {
+                projeteis[num_proj++] = atira (n2, mascara_proj, pic_proj);
+            }
+            else if (k == 114) {
+                rotaciona_nave (n2, 1);
             }
         }
 
@@ -172,6 +177,7 @@ int main(int argc, char* argv[]) {
 
             //Atracao entre projetil i e outros projeteis
             for (j = 0; j < num_proj; j++) {
+                if (projeteis[i]->morto) continue;
                 if (i == j) continue;
                 fap = atracao_projetil(projeteis[j], projeteis[i]->x, projeteis[i]->y, projeteis[i]->massa);
                 fap_res = resultante(fap_res, fap);
@@ -188,6 +194,10 @@ int main(int argc, char* argv[]) {
 
             //atualiza projetil
             atualiza_projetil(projeteis[i], passo);
+
+            double dist = amplia_distancia (PLANETA_RAIO);
+            if (projeteis[i]->x * projeteis[i]->x + projeteis[i]->y * projeteis[i]->y < dist * dist)
+                projeteis[i]->morto = 1;
         }
 
         //Fase de impressao
@@ -213,5 +223,6 @@ int main(int argc, char* argv[]) {
     for (i = 0; i < num_proj; i++) destroi_projetil(projeteis[i]);
     FreePic (w1);
 
+    printf ("Empate - falta de tempo\n");
     return 0;
 }

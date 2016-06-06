@@ -1,7 +1,8 @@
 #ifndef NAVE_H
 #define NAVE_H
 #define MAX_MSKS 25
-#define NAVE_RAIO 75
+#define NAVE_RAIO 60
+#define NAVE_VELOCIDADE 500
 struct Nave {
     char* nome;
     double massa;
@@ -40,7 +41,7 @@ void imprime_nave (nave n, WINDOW* w1);
 void rotaciona_nave (nave n, int dir);
 
 /* Dispara um projetil da nave n */
-projetil atira (nave n, WINDOW* w1, PIC MAPA);
+projetil atira (nave n, PIC mask, PIC pic);
 
 /* Verifica colisao da nave n com o objeto na posicao (x, y) e tamanho size */
 int colisao (nave n, double x, double y, int size);

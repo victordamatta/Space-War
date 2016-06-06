@@ -3,6 +3,7 @@
 /* Tamanho da tela */
 #define WIDTH 800
 #define HEIGHT 800
+#define AJUSTE_NAVE 75
 
 /* Recebe um ponto na escala planetaria e devolve o ponto correspondente na 
  * escala grafica */

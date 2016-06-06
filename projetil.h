@@ -15,7 +15,7 @@ struct Projetil {
 typedef struct Projetil * projetil;
 
 /* Constructor para um projetil */
-projetil novo_projetil (double x, double y, WINDOW* w1, PIC MAPA);
+projetil novo_projetil (double x, double y, int inclinacao, PIC mask, PIC pic);
 
 /* Destructor para um projetil */
 void destroi_projetil (projetil p);

@@ -1,5 +1,6 @@
 Relatório
 
+ETAPA 1:
 O projeto é estruturado de acordo com os objetos presentes na simulação. Para
 cada tipo de objeto existe um arquivo com a especificação do objeto, constructor
 e destructor e um conjunto de funções que utilizam o objeto.
@@ -12,6 +13,7 @@ O programa então consiste de um loop que primeiro calcula as interações entre
 os objetos, aplicar o resultado dessas interações e imprimir a situação atual
 do sistema.
 
+ETAPA 2:
 Para a ilustração da movimentação dos objetos, nessa fase do projeto, utilizamos
 a biblioteca XWC.
 
@@ -38,3 +40,32 @@ e aí imprimir na tela as PICS desejadas.
 
 Ao fim do uso daquela PIC/MASK a mascara deve ser desativada para que possa ser
 feito o mesmo processo com os outros objetos que também serão impressos.
+
+A principal dificuldade dessa etapa foi como modularizar as funções. Alguns elementos
+da parte gráfica são úteis para todos os objetos, então foi criado um novo módulo
+do programa: gráficos. Ele é principalmente responsável por fazer a conversão das
+coordenadas simuladas para os pixels desenhados.
+
+ETAPA 3:
+Nessa etapa, foram implementados os comandos do usuário e as colisões.
+
+Todas as colisões relevantes são da nave menos uma: planeta com projétil. Então
+a função de colisão foi feita no arquivo responsável pela nave. A colisão de
+projétil foi escrita diretamente na main, pois só é chamada em um local.
+
+Os comandos de usuário foram implementados com a biblioteca XWC. Ela oferece uma
+interface simples que essencial lê o stdin de uma maneira útil para a situação.
+
+Além disso, as imagens do jogo foram atualizadas, e a escala do arquivo de entrada
+foi ajustada para similar os dados da vida real.
+
+O armazenamento dos projéteis é feito em um vetor. Como a operação de passar por
+todos os projéteis é comum, essa estrutura de dados permite fazer isso com facilidade.
+A remoção de um projétil é demorada em um vetor, mas como o número total de projéteis
+de uma partida é pequeno (máximo de centenas, normalmente), a remoção é feita apenas
+ignorando o projétil considerado "morto".
+
+A principal dificuldade dessa etapa foi achar as constantes certas para garantir uma
+boa jogabilidade, como a velocidade e a massa dos projéteis, ou a velocidade da nave.
+A decisão final foi baseada em vários testes, onde foram feitos pequenos ajustes a
+estes valores.

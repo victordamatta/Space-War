@@ -4,18 +4,18 @@
 #include <stdlib.h>
 #include "projetil.h"
 
-projetil novo_projetil (double x, double y, WINDOW* w1, PIC MAPA) {
+projetil novo_projetil (double x, double y, int inclinacao, PIC mask, PIC pic) {
     projetil p = malloc (sizeof (struct Projetil));
 	
-	p->mask = NewMask(MAPA, 32, 32);
-	p->pic = ReadPic(w1, "imagens/projeteis/projetil.xpm", p->mask);
-    //VALORES PRECISAM SER AJUSTADOS
+	p->mask = mask;
+	p->pic = pic;
     p->massa = 10;
     p->x = x;
     p->y = y;
-    p->velx = 500; //SUBSTITUIR POR FUNCAO DA INCLINACAO
-    p->vely = 500; //SUBSTITUIR POR FUNCAO DA INCLINACAO
-    p->tempo = 1000;
+    componentes comp = decomposicao (10000, inclinacao);
+    p->velx = comp.x;
+    p->vely = comp.y;
+    p->tempo = 3000;
     p->morto = 0;
     return p;
 }
@@ -35,8 +35,10 @@ forca atracao_projetil (projetil p, double x, double y, double m) {
 void atualiza_projetil (projetil p, double dt) {
     p->x += dt * p->velx;
     p->y += dt * p->vely;
-    if (p->x > WIDTH) p->x -= WIDTH + 50;
-    if (p->y > HEIGHT) p->y -= HEIGHT + 50;
+    if (reduz_coordenada (p->x) > WIDTH) p->x -= amplia_distancia (WIDTH + 50);
+    else if (reduz_coordenada (p->x) < 0) p->x += amplia_distancia (WIDTH + 50);
+    if (reduz_coordenada (p->y) > HEIGHT) p->y -= amplia_distancia (HEIGHT + 50);
+    else if (reduz_coordenada (p->y) < 0) p->y += amplia_distancia (HEIGHT + 50);
     p->tempo -= dt;
     if (p->tempo <= 0) p->morto = 1;
 }
