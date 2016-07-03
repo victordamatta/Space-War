@@ -48,18 +48,20 @@ int main(int argc, char* argv[]) {
 	MAPA = ReadPic(w1, "imagens/cenario.xpm", NULL);
     InitKBD(w1);
 
-    /*
 	PIC loading[10];
 	int cont_load = 0;
 
     char sel[] = "imagens/loading/loading-0.xpm";
-    for (i = 0; i < 8; i++) {
-        sel[24] = i + 48;
-        loading[i] = ReadPic(w1, sel, NULL);
-        PutPic(w1, loading[cont_load], 0, 0, WIDTH, HEIGHT, 0, 0);
-        cont_load = (cont_load + 1) % 8;
-    }
-    */
+    
+	for (j=0;j<2;j++) {
+		for (i = 0; i < 8; i++) {
+			sel[24] = i + 48;
+			loading[i] = ReadPic(w1, sel, NULL);
+			PutPic(w1, loading[cont_load], 0, 0, WIDTH, HEIGHT, 0, 0);
+			cont_load = (cont_load + 1) % 8;
+		}
+	}
+    
 
     sscanf(argv[1], "%lf", &passo);
     scanf("%lf %lf %lf\n", &tp, &mp, &t_simul);
